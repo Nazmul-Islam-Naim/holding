@@ -1,0 +1,32 @@
+
+.default-sidebar-wrapper .default-sidebar-menu ul li.active a span {
+   font-weight: bold;
+}
+
+.default-sidebar-wrapper .default-sidebar-menu ul li.active a.current-page {
+   background: #17995e;
+   pointer-events: auto;
+   position: relative;
+   color: #ffffff;
+}
+
+.default-sidebar-wrapper .default-sidebar-menu ul li.active a.current-page:hover {
+   background: #17995e;
+   position: relative;
+   color: #ffffff;
+}
+
+
+.default-sidebar-wrapper .default-sidebar-menu ul li a.selectedMenue {
+   background: #17995e;
+   pointer-events: auto;
+   position: relative;
+   color: #ffffff;
+}
+
+
+.default-sidebar-wrapper .default-sidebar-menu ul li a.selectedMenue:hover {
+   background: #17995e;
+   position: relative;
+   color: #ffffff;
+}

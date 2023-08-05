@@ -1,0 +1,169 @@
+// White Shades
+$white: #ffffff;
+$pearl-bg: #e3e7f2;
+$light-grey: #42466b;
+$grey: #adaecc;
+
+// Black Shades
+$black: #000000;
+
+// Font Colors
+$main-font-color: #b0b6d2;
+$font-color: #b0b6d2;
+$font-color-light: #7c83a9;
+$font-color-dark: #495075;
+$font-color-lighter: #8087ad;
+
+// Light, Dark Colors
+$light-bg: #323456;
+$light-color: #f5f8fd;
+$lighter-bg: #f6f6fd;
+$dark-bg: #a6b2c5;
+$dark-color: #212c3a;
+
+$content-wrapper-bg: #1a1c33;
+
+// Border Colors
+$border-bg: #424665;
+$border-bg-dark: #292b45;
+$border-bg-light: #5a5e82;
+
+// Forms
+$form-border: #424665;
+$input-color: #afb5c9;
+$input-color-dark: #6c7882;
+$form-label-bg: #f8f8fb;
+$valid-color: #34a853;
+$invalid-color: #ea4335;
+
+// Primary, Secondary Colors
+$primary-color: #4285F4;
+$primary-color-light: #5697ff;
+$primary-color-dark: #2770e4;
+$primary-text-color: #cddffd;
+$secondary-color: #3e4165;
+$secondary-color-light: #95a3b5;
+$secondary-text-color: #ffffff;
+
+// Sidebar Color
+$sidebar-bg: #1a1c33;
+$sidebar-hover-bg: #2b2d50;
+$sidebar-active-bg: #4285f4;
+$sidebar-text-color: #7980a2;
+$sidebar-text-color-dark: #3a4265;
+$sidebar-active-link-bg: #242644;
+$sidebar-icon-bg: #36395a;
+
+// Tab Content Color
+$tab-content-bg: #1e203a;
+$page-wrapper-bg: #090a15;
+
+// Card
+$card-bg: #292b4a;
+$card-bg-light: #37395d;
+$card-bg-lighten :#333558;
+$card-shadow: #1a1c33;
+
+// Navbar Color
+$nav-tooltip-bg: #000000;
+$nav-tooltip-text: #ffffff;
+
+// Table Colors
+$table-bg: #292b4a;
+$table-bg-odd: #323456;
+$table-header: #4285f4;
+$table-td: #292b4a;
+$table-td-hover: #37395d;
+$table-color: #7980a2;
+$table-color-light: #d4d5de;
+$table-border: #383a5d;
+$table-border-dark: #383a5d;
+
+// Colors
+$red: #ea4335;
+$light-red: #ffdbdb;
+$dark-red: #de3e3e;
+$green: #34a853;
+$light-green: #d8eccb;
+$dark-green: #4c900f;
+$peacock-green: #7CBB00;
+$yellow: #fbbc05;
+$light-yellow: #f7e6b5;
+$dark-yellow: #cc9a09;
+$blue: #4285F4;
+$light-blue: #d5eafd;
+$dark-blue: #2d8dec;
+$pink: #e75b62;
+$light-pink: #ffe2e7;
+$dark-pink: #e24f69;
+$peach: #e75b62;
+$maroon: #8f4a6e;
+$orange: #f36311;
+$light-orange: #fde8d9;
+$dark-orange: #e6680e;
+$violet: #62199a;
+$light-violet: #f2e2ff;
+$dark-violet: #8936ca;
+$purple: #c22dfe;
+$brown: #b36135;
+$light-brown: #e8dad7;
+$dark-brown: #a7644a;
+
+
+
+/*************** 2.Mixins ***************/
+
+// Transition
+@mixin transition($transition-property, $transition-time, $method) {
+	-webkit-transition: $transition-property $transition-time $method;
+	-moz-transition: $transition-property $transition-time $method;
+	-ms-transition: $transition-property $transition-time $method;
+	-o-transition: $transition-property $transition-time $method;
+	transition: $transition-property $transition-time $method;
+}
+
+// Box Sizing
+@mixin box-sizing($string){
+	-webkit-box-sizing: $string;
+	-moz-box-sizing: $string;
+	box-sizing: $string;
+}
+
+// Box Shadow
+@mixin box-shadow($off-y, $off-x, $blur, $color){
+	-moz-box-shadow: $off-y $off-x $blur $color; /* FF3.5+ */
+	-webkit-box-shadow: $off-y $off-x $blur $color; /* Saf3.0+, Chrome */
+	box-shadow: $off-y $off-x $blur $color; /* Opera 10.5, IE9 */
+}
+@mixin box-shadow-inset($top, $left, $blur, $color, $inset:"") {
+	-webkit-box-shadow: $top $left $blur $color $inset;
+	-moz-box-shadow: $top $left $blur $color $inset;
+	box-shadow: $top $left $blur $color $inset;
+}
+
+// Border Radius
+@mixin roundedCorners($size) {
+	-webkit-border-radius: $size + px;
+	-moz-border-radius: $size + px;
+	border-radius: $size + px;
+}
+@mixin roundedCornersAll($size1, $size2, $size3, $size4) {
+	-webkit-border-radius: $size1 $size2 $size3 $size4;
+	-moz-border-radius: $size1 $size2 $size3 $size4;
+	border-radius: $size1 $size2 $size3 $size4;
+}
+
+// Transform
+@mixin transform($args){
+	-webkit-transform: $args;
+	-moz-transform: $args;
+	-o-transform: $args;
+	-ms-transform: $args;
+	transform: $args;
+}
+
+// Opacity
+@mixin opacity($opacity) {
+	opacity: $opacity / 100;
+	filter: alpha(opacity=$opacity);
+}

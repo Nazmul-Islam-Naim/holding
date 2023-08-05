@@ -1,0 +1,10 @@
+  .dt-top {
+      top: 0;
+      position: sticky;
+  }
+
+  .dt-wrap {
+      text-align: center;
+      word-wrap: break-word;
+      white-space: normal !important;
+  }
