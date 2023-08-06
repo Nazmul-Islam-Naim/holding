@@ -13,11 +13,12 @@ use Session;
 use Hash;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
-
+use App\Traits\FileUploadTrait;
 
 
 class UserController extends Controller
 {
+    use FileUploadTrait;
     /**
      * Display a listing of the resource.
      *
@@ -74,15 +75,7 @@ class UserController extends Controller
         $data = $request->all();
         $data['password'] = Hash::make($request->password);
 
-        if(Arr::has($data, 'avatar')){
-            $data['avatar'] = (Arr::pull($data, 'avatar'));
-            $data['avatar'] = (Arr::pull($data, 'avatar'))->store('user-avatar');
-        }
-
-        if(Arr::has($data, 'nid')){
-            $data['nid'] = (Arr::pull($data, 'nid'));
-            $data['nid'] = (Arr::pull($data, 'nid'))->store('user-nid');
-        }
+        $data = $this->storeFile($data);
 
         try{
             User::create($data);
@@ -133,22 +126,12 @@ class UserController extends Controller
         // Gate::authorize('app.users.edit');
         $user = User::findOrFail($id);
         $data = $request->all();
-
-        if(Arr::has($data, 'avatar')){
-            $data['avatar'] = (Arr::pull($data, 'avatar'));
-            $data['avatar'] = (Arr::pull($data, 'avatar'))->store('user-avatar');
-        }
-
-        if(Arr::has($data, 'nid')){
-            $data['nid'] = (Arr::pull($data, 'nid'));
-            $data['nid'] = (Arr::pull($data, 'nid'))->store('user-nid');
-        }
-            
         if ($request->password !="") {
             $data['password'] = Hash::make($request->password);
         }else{
             $data['password'] = $user->password;
         }
+        $data = $this->updateFile($user, $data);
         $method = Arr::pull($data, '_method');
         $token = Arr::pull($data, '_token');
         try{
@@ -172,12 +155,7 @@ class UserController extends Controller
         // Gate::authorize('app.users.delete');
         try{
             $user = User::findOrFail($id);
-            if (Storage::exists($user->avatar)) {
-                Storage::delete($user->avatar);
-            }
-            if (Storage::exists($user->nid)) {
-                Storage::delete($user->nid);
-            }
+            $this->destroyFile($user);
             $user->delete();
             Session::flash('flash_message','User Successfully Deleted !');
             return redirect()->route('user-list.index')->with('status_color','warning');

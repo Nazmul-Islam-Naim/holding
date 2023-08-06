@@ -22,7 +22,7 @@ class SettingController extends Controller
         $input['password_hint'] = $request->password;
         try{
             $data->update($input);
-            Session::flash('flash_message','Data Successfully Added !');
+            Session::flash('flash_message','Password Updated !');
             return redirect()->back()->with('status_color','success');
         }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
