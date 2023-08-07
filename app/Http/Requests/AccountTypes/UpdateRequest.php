@@ -29,7 +29,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'max:191', Rule::unique(AccountType::class)->ignore(Helper::decrypt($this->accountType))]
+            'title' => ['required', 'string', 'max:191', Rule::unique(AccountType::class)->ignore($this->accountType)]
         ];
     }
     

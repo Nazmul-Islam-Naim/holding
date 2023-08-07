@@ -30,7 +30,7 @@ class UpdateRequest extends FormRequest
             'bank_id' => ['required'],
             'account_type_id' => ['required'],
             'account_name' => ['required', 'max:50'],
-            'account_number' => ['required', 'max:20', Rule::unique(BankAccount::class)->ignore(Helper::decrypt($this->bankAccount))],
+            'account_number' => ['required', 'max:20', Rule::unique(BankAccount::class)->ignore($this->bankAccount)],
             'routing_numer' => ['nullable', 'max:20'],
             'branch' => ['nullable', 'max:50'],
             'opening_date' => ['required', 'date_format:Y-m-d'],

@@ -1,10 +1,15 @@
 <?php
 
+use App\Http\Controllers\AccountModule\AccountTypeController;
+use App\Http\Controllers\AccountModule\BankAccountController;
+use App\Http\Controllers\AccountModule\BankController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DesignationController;
+use App\Models\AccountType;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,10 +30,6 @@ Route::get('/', function () {
 Route::get('/dashboard', [HomeController::class ,'index'])->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     
     //******** users part *******//
     Route::prefix(config('app.user'))->group(function () {
@@ -37,8 +38,16 @@ Route::middleware('auth')->group(function () {
     });
     
     // change password part
-    Route::get('settings', 'App\Http\Controllers\SettingController@index');
-    Route::put('update-user-password/{id}', 'App\Http\Controllers\SettingController@updateUserPassword')->name('update-user-password');
+    Route::get('settings', [SettingController::class, 'index']);
+    Route::put('update-user-password/{id}', [SettingController::class, 'updateUserPassword'])->name('update-user-password');
+        
+    //******** account module part *******//
+    Route::prefix(config('app.account'))->group(function () {
+        Route::resource('banks', BankController::class);
+        Route::resource('accountTypes', AccountTypeController::class);
+        Route::resource('bankAccounts', BankAccountController::class);
+    });
+
 });
 
 require __DIR__.'/auth.php';

@@ -28,7 +28,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'cheque_book_id' => ['required'],
-            'cheque_no' => ['required', 'max:20', Rule::unique(ChequeNumber::class)->ignore(Helper::decrypt($this->chequeNumber))]
+            'cheque_no' => ['required', 'max:20', Rule::unique(ChequeNumber::class)->ignore($this->chequeNumber)]
         ];
     }
 }

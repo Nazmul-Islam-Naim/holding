@@ -28,7 +28,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'max:191', Rule::unique(Bank::class)->ignore(Helper::decrypt($this->bank))]
+            'title' => ['required', 'string', 'max:191', Rule::unique(Bank::class)->ignore($this->bank)]
         ];
     }
     

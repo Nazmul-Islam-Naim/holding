@@ -111,6 +111,29 @@
                                         <span class="menu-text">Dashboard</span>
                                     </a>
                                 </li>
+                                <!-------------- account module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.account').'/banks' || $url==config('app.account').'/banks/create' || $url==(request()->is(config('app.account').'/banks/*/edit')) ||
+                                    $url==config('app.account').'/accountTypes' || $url==config('app.account').'/accountTypes/create' || $url==(request()->is(config('app.account').'/accountTypes/*/edit')) ||
+                                    $url==config('app.account').'/bankAccounts' || $url==config('app.account').'/bankAccounts/create' || $url==(request()->is(config('app.account').'/bankAccounts/*/edit'))) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">Account Managment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.account').'/banks'}}" class="{{($url==config('app.account').'/banks' || $url==config('app.account').'/banks/create' || $url==(request()->is(config('app.account').'/banks/*/edit'))) ? 'current-page':''}}">Bank</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.account').'/accountTypes'}}" class="{{($url==config('app.account').'/accountTypes' || $url==config('app.account').'/accountTypes/create' || $url==(request()->is(config('app.account').'/accountTypes/*/edit'))) ? 'current-page':''}}">Account Type</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.account').'/bankAccounts'}}" class="{{($url==config('app.account').'/bankAccounts' || $url==config('app.account').'/bankAccounts/create' || $url==(request()->is(config('app.account').'/bankAccounts/*/edit'))) ? 'current-page':''}}">Bank Account</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <!-------------- user part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.user').'/user-list' || $url==config('app.user').'/user-list/create' || $url==(request()->is(config('app.user').'/user-list/*/edit')) ||

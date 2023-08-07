@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AccountModule;
 
+use App\Enum\Status;
 use App\Enum\TransactionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BankAccount\CreateRequest;
 use App\Http\Requests\BankAccount\UpdateRequest;
+use App\Http\Requests\Filter\DateFilter;
 use App\Models\AccountType;
 use App\Models\Bank;
 use App\Models\BankAccount;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Yajra\DataTables\Facades\DataTables;
 
 class BankAccountController extends Controller
 {
@@ -18,10 +22,36 @@ class BankAccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['bankAccounts'] = BankAccount::all();
-        return view('accountModule.bankAccount.index', $data);
+        if ($request->ajax()) {
+            $alldata= BankAccount::with(['bank', 'accountType'])
+                            ->where('status', Status::getFromName('Active'))
+                            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                ob_start() ?>
+                
+                <div class="btn-group">
+                <button type="button" class="badge badge-sm bg-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Diposit</a></li>
+                        <li><a class="dropdown-item" href="#">Withdraw</a></li>
+                        <li><a class="dropdown-item" href="#">Transfer</a></li>
+                        <li><a class="dropdown-item" href="<?php echo route('bankAccounts.show', $row->id); ?>">Report</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?php echo route('bankAccounts.edit', $row->id); ?>">Edit</a></li>
+                        <li><a class="dropdown-item button-delete" href="#" data-id="<?php echo $row->id; ?>">Delete</a></li>
+                    </ul>
+                </div>
+
+            <?php return ob_get_clean();
+            })->make(True);
+        }
+        return view('accountModule.bankAccount.index');
     }
 
     /**
@@ -48,8 +78,9 @@ class BankAccountController extends Controller
         try {
             tap(BankAccount::create($request->all()), function($object){
                 $object->transaction()->create([
+                    'bank_account_id' => $object->id,
                     'transaction_type' => TransactionType::getFromName('Opening'),
-                    'reason' => $object->account_name. ' '. TransactionType::Opening. 'Balance',
+                    'reason' => $object->account_name. ' '. TransactionType::Opening->toString(). ' Balance',
                     'amount' => $object->balance,
                     'transaction_date' => $object->opening_date
                 ]);
@@ -57,6 +88,7 @@ class BankAccountController extends Controller
             Session::flash('flash_message','Data Successfully Added.');
             return redirect()->route('bankAccounts.index')->with('status_color','success');
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -68,10 +100,21 @@ class BankAccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   public function show($id)
+   public function show(DateFilter $request, $id)
     {
-        $data['bankAccount'] = BankAccount::findOrFail($id);
-        return view('accountModule.bankAccount.report', $data);
+        if ($request->start_date != '' && $request->end_date != '') {
+            $bankAccount = BankAccount::findOrFail($id);
+            $bankAccount->load(['transactions' => function ($query) use ($request) {
+                $query->where('transaction_date', '>=', $request->start_date)
+                    ->where('transaction_date', '<=', $request->end_date);
+            }]);
+            $data['bankAccount'] = $bankAccount;
+            return view('accountModule.bankAccount.report', $data);
+        } else {
+            $data['bankAccount'] = BankAccount::findOrFail($id);
+            return view('accountModule.bankAccount.report', $data);
+        }
+        
     }
 
     /**
@@ -100,10 +143,10 @@ class BankAccountController extends Controller
         try {
             $inputData = $request->except('_method', '_token');
             $object = BankAccount::findOrFail($id);
-            tap($object->update($inputData), function($object){
+            tap($object->update($inputData), function($status) use($object){
                 $object->transaction()->update([
                     'transaction_type' => TransactionType::getFromName('Opening'),
-                    'reason' => $object->account_name. ' '. TransactionType::Opening. 'Balance',
+                    'reason' => $object->account_name. ' '. TransactionType::Opening->toString(). ' Balance',
                     'amount' => $object->balance,
                     'transaction_date' => $object->opening_date
                 ]);
