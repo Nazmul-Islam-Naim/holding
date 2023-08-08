@@ -117,7 +117,8 @@
                                     $url==config('app.account').'/accountTypes' || $url==config('app.account').'/accountTypes/create' || $url==(request()->is(config('app.account').'/accountTypes/*/edit')) ||
                                     $url==config('app.account').'/bankAccounts' || $url==config('app.account').'/bankAccounts/create' || $url==(request()->is(config('app.account').'/bankAccounts/*/edit')) ||
                                     $url==config('app.account').'/chequeBooks' || $url==config('app.account').'/chequeBooks/create' || $url==(request()->is(config('app.account').'/chequeBooks/*/edit')) ||
-                                    $url==config('app.account').'/chequeNumbers' || $url==config('app.account').'/chequeNumbers/create' || $url==(request()->is(config('app.account').'/chequeNumbers/*/edit'))) ? 'active':''}}">
+                                    $url==config('app.account').'/chequeNumbers' || $url==config('app.account').'/chequeNumbers/create' || $url==(request()->is(config('app.account').'/chequeNumbers/*/edit')) ||
+                                    $url==config('app.account').'/transactions') ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-user"></i>
                                         <span class="menu-text">Account Managment</span>
@@ -138,6 +139,9 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.account').'/chequeNumbers'}}" class="{{($url==config('app.account').'/chequeNumbers' || $url==config('app.account').'/chequeNumbers/create' || $url==(request()->is(config('app.account').'/chequeNumbers/*/edit'))) ? 'current-page':''}}">Cheque Number</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.account').'/transactions'}}" class="{{($url==config('app.account').'/transactions') ? 'current-page':''}}">Transactions</a>
                                             </li>
                                         </ul>
                                     </div>

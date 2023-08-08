@@ -27,7 +27,7 @@ class DepositRequest extends FormRequest
         return [
             'amount' => ['required', 'numeric'],
             'transaction_date' => ['required', 'date_format:Y-m-d'],
-            'transaction_note' => ['nullable', 'max:255']
+            'note' => ['nullable', 'max:255']
         ];
     }
 }

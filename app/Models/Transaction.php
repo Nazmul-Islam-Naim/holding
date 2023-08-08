@@ -12,6 +12,9 @@ class Transaction extends Model
     protected $table = 'transactions';
     protected $fillable = ['bank_account_id', 'transactionable_type', 'transactionable_id', 'transaction_type', 'reason', 'amount', 'transaction_date', 'note'];
 
+    public function bankAccount(){
+        return $this->belongsTo(BankAccount::class);
+    }
     public function transactionable(): MorphTo
     {
         return $this->morphTo();

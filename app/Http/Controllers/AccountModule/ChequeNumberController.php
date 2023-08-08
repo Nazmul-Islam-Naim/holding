@@ -45,13 +45,13 @@ class ChequeNumberController extends Controller
         try {
             $chequeNumber = ChequeNumber::where('cheque_book_id', $request->cheque_book_id)->count();
             $chequeBook = ChequeBook::where('id', $request->cheque_book_id)->first()->pages;
-            if ( $chequeNumber <= $chequeBook){
+            if ($chequeNumber <= $chequeBook){
                 ChequeNumber::create($request->all());
                 Session::flash('flash_message','Data Successfully Added.');
                 return redirect()->route('chequeNumbers.index')->with('status_color','success');
             }else{
                 Session::flash('flash_message','You can\'t add more page in this book !');
-                return redirect()->route('chequeNumbers.index')->with('status_color','warning');
+                return redirect()->back()->with('status_color','warning');
             }
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');

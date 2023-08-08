@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountModule\BankAccountController;
 use App\Http\Controllers\AccountModule\BankController;
 use App\Http\Controllers\AccountModule\ChequeBookController;
 use App\Http\Controllers\AccountModule\ChequeNumberController;
+use App\Http\Controllers\AccountModule\TransactionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
@@ -47,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('bankAccounts', BankAccountController::class);
         Route::resource('chequeBooks', ChequeBookController::class);
         Route::resource('chequeNumbers', ChequeNumberController::class);
+        Route::get('transactions', [TransactionController::class, 'transaction'])->name('transactions');
     });
 
 });
