@@ -4,14 +4,10 @@ namespace App\Enum;
 
 use ReflectionEnum;
 
-enum TransactionType: int
+enum ChequeNumberStatus: int
 {
-    case Opening      =   1;
-    case Deposit      =   2;
-    case Withdraw     =   3;
-    case Transfer     =   4;
-    case Receive      =   5;
-    case Payment      =   6;
+    case Used      =   0;
+    case Unused    =   1;
 
     /**
      * [Will return cases name list]
@@ -62,22 +58,6 @@ enum TransactionType: int
         }
         return $itemValue;
     }
-    
-    /**
-     * [get case object by value]
-     *
-     * @return [type]
-     *
-     */
-    public static function getFromValue(int $value){
-        foreach (Self::cases() as $case) {
-            if ($case->value === $value) {
-                return $case;
-            }
-        }
-        
-        return null;
-    }
 
     /**
      * [Description for toString]
@@ -87,13 +67,36 @@ enum TransactionType: int
      */
     public function toString(){
         return match($this){
-            self::Opening=>"Opening",
-            self::Deposit=>"Deposit",
-            self::Withdraw=>"Withdraw",
-            self::Transfer=>"Transfer",
-            self::Receive=>"Receive",
-            self::Payment=>"Payment",
+            self::Used=>"Used",
+            self::Unused=>"Unused",
         };
+    }
+
+
+    /**
+     * [Description for toString]
+     *
+     * @return [type]
+     *
+     */
+    public function color(){
+        return match($this){
+            self::Used=>"success",
+            self::Unused=>"warning",
+        };
+    }
+
+    /**
+     * [Description for toString]
+     *
+     * @return [type]
+     *
+     */
+    public function getRes(){
+        return [
+            "color"=>self::color(),
+            "string"=>self::toString()
+        ];
     }
 
 

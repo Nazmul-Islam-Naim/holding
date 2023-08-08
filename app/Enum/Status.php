@@ -46,6 +46,22 @@ enum Status: int
     }
 
     /**
+     * [get case object by value]
+     *
+     * @return [type]
+     *
+     */
+    public static function getByValue($value){
+        foreach(self::cases() as  $item){
+            if($item->value == $value){
+                $itemValue = $item->name;
+                break;
+            }
+        }
+        return $itemValue;
+    }
+
+    /**
      * [Description for toString]
      *
      * @return [type]

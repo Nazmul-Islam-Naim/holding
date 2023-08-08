@@ -28,7 +28,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'cheque_book_id' => ['required'],
-            'cheque_no' => ['required', 'max:20', Rule::unique(ChequeNumber::class)]
+            'cheque_number' => ['required', 'max:20', Rule::unique(ChequeNumber::class)]
         ];
     }
 }

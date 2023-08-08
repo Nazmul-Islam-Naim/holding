@@ -3,13 +3,12 @@
 use App\Http\Controllers\AccountModule\AccountTypeController;
 use App\Http\Controllers\AccountModule\BankAccountController;
 use App\Http\Controllers\AccountModule\BankController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AccountModule\ChequeBookController;
+use App\Http\Controllers\AccountModule\ChequeNumberController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DesignationController;
-use App\Models\AccountType;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +45,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('banks', BankController::class);
         Route::resource('accountTypes', AccountTypeController::class);
         Route::resource('bankAccounts', BankAccountController::class);
+        Route::resource('chequeBooks', ChequeBookController::class);
+        Route::resource('chequeNumbers', ChequeNumberController::class);
     });
 
 });
