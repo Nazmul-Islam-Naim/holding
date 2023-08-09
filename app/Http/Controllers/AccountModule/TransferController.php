@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AccountModule;
 use App\Enum\TransactionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BankAccount\DepositRequest;
+use App\Http\Requests\BankAccount\TransferRequest;
 use App\Http\Requests\Filter\DateFilter;
 use App\Models\BankAccount;
 use App\Models\Transaction;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
-class DepositController extends Controller
+class TransferController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +24,7 @@ class DepositController extends Controller
     {
         if ($request->ajax()) {
             $alldata= Transaction::with(['bankAccount', 'bankAccount.bank'])
-                            ->where('transaction_type', TransactionType::getFromName('Deposit'))
+                            ->where('transaction_type', TransactionType::getFromName('Transfer'))
                             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()
@@ -32,7 +33,7 @@ class DepositController extends Controller
                 
                 <ul class="list-inline m-0">
                     <li class="list-inline-item">
-                        <a href="<?php echo route('deposits.edit', $row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>"><i class="icon-edit-3"></i></a>
+                        <a href="<?php echo route('transfers.edit', $row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>"><i class="icon-edit-3"></i></a>
                     </li>
                     <li class="list-inline-item">
                         <button data-id="<?php echo $row->id; ?>" class="badge bg-danger badge-sm button-delete"><i class="icon-delete"></i></button>
@@ -52,8 +53,9 @@ class DepositController extends Controller
      */
     public function create($id)
     {
+        $data['bankAccounts'] = BankAccount::select('id', 'account_name', 'account_number')->whereNotIn('id', [$id])->get();
         $data['bankAccount'] = BankAccount::findOrFail($id);
-        return view('accountModule.deposit.create', $data);
+        return view('accountModule.transfer.create', $data);
     }
 
     /**
@@ -64,15 +66,28 @@ class DepositController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(DepositRequest $request, $id)
+    public function store(TransferRequest $request, $id)
     {
         try {
             $object = BankAccount::findOrFail($id);
-            tap($object->increment('balance', $request->amount), function($status) use($object, $request){
+            tap($object->decrement('balance', $request->amount), function($status) use($object, $request){
+                $transferToBank = BankAccount::where('id', $request->bank_account_id)->first();
                 $object->transaction()->create([
                     'bank_account_id' => $object->id,
+                    'transaction_type' => TransactionType::getFromName('Withdraw'),
+                    'reason' => TransactionType::Transfer->toString(). ' to '. 
+                                $transferToBank->account_name,
+                    'amount' => $request->amount,
+                    'transaction_date' => $request->transaction_date,
+                    'note' => $request->note,
+                ]);
+
+                $transferToBank->increment('balance', $request->amount);
+                $object->transaction()->create([
+                    'bank_account_id' => $transferToBank->id,
                     'transaction_type' => TransactionType::getFromName('Deposit'),
-                    'reason' => $object->account_name. ' '. TransactionType::Deposit->toString(). ' Balance',
+                    'reason' => TransactionType::Transfer->toString(). ' from '. 
+                                $object->account_name,
                     'amount' => $request->amount,
                     'transaction_date' => $request->transaction_date,
                     'note' => $request->note,
@@ -106,8 +121,9 @@ class DepositController extends Controller
      */
     public function edit($id)
     {
+        $data['bankAccounts'] = BankAccount::select('id', 'account_name', 'account_number')->get();
         $data['deposit'] = Transaction::findOrFail($id);
-        return view('accountModule.deposit.edit', $data);
+        return view('accountModule.transfer.edit', $data);
     }
 
     /**
@@ -117,22 +133,27 @@ class DepositController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DepositRequest $request, $id)
+    public function update(TransferRequest $request, $id)
     {
         try {
             $inputData = $request->except('_method', '_token');
             $object = Transaction::findOrFail($id);
             $bankAccount = BankAccount::findOrFail($object->bank_account_id);
-            tap($bankAccount->decrement('balance', $object->amount), function($status) use($object,  $bankAccount, $inputData){
-                $bankAccount->increment('balance', $inputData['amount']);
+            if ($object->transaction_type == TransactionType::getFromName('Deposit')) {
+                $bankAccount->decrement('balance', $object->amount);
                 $object->transaction()->update([
-                    'transaction_type' => TransactionType::getFromName('Deposit'),
-                    'reason' => $bankAccount->account_name. ' '. TransactionType::Deposit->toString(). ' Balance',
                     'amount' => $inputData['amount'],
                     'transaction_date' => $inputData['transaction_date'],
                     'note' => $inputData['note'],
                 ]);
-            });
+            } else {
+                $bankAccount->increment('balance', $object->amount);
+                $object->transaction()->update([
+                    'amount' => $inputData['amount'],
+                    'transaction_date' => $inputData['transaction_date'],
+                    'note' => $inputData['note'],
+                ]);
+            }
             Session::flash('flash_message','Data Successfully Updated.');
             return redirect()->route('deposits.index')->with('status_color','success');
         } catch (\Exception $exception) {
@@ -151,8 +172,14 @@ class DepositController extends Controller
     {
         try{
             $object = Transaction::findOrFail($id);
-            BankAccount::where('id', $object->amount)->decrement('balance', $object->amount);
-            $object->delete();
+            $bankAccount = BankAccount::findOrFail($object->bank_account_id);
+            if ($object->transaction_type == TransactionType::getFromName('Deposit')) {
+                $bankAccount->decrement('balance', $object->amount);
+                $object->delete();
+            } else {
+                $bankAccount->increment('balance', $object->amount);
+                $object->delete();
+            }
             Session::flash('flash_message','Data Successfully Deleted !');
             return redirect()->route('bankAccounts.index')->with('status_color','success');
         }catch(\Exception $e){

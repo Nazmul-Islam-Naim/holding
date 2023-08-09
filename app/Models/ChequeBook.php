@@ -17,4 +17,8 @@ class ChequeBook extends Model
     public function bank(){
         return $this->belongsTo(Bank::class);
     }
+
+    public function chequeNumbers(){
+        return $this->hasMany(ChequeNumber::class);
+    }
 }

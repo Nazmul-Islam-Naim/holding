@@ -156,10 +156,4 @@
   <!-- Content wrapper end -->
 </div>
 <!-- Content wrapper scroll end -->
-{!!Html::script('custom/js/jquery.min.js')!!}
-<script>
-$(document).ready(function() {
-  $('#details').summernote();
-});
-</script>
 @endsection

@@ -38,9 +38,9 @@ class BankAccountController extends Controller
                     Action
                 </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Diposit</a></li>
-                        <li><a class="dropdown-item" href="#">Withdraw</a></li>
-                        <li><a class="dropdown-item" href="#">Transfer</a></li>
+                        <li><a class="dropdown-item" href="<?php echo route('deposits.create', $row->id); ?>">Diposit</a></li>
+                        <li><a class="dropdown-item" href="<?php echo route('withdraws.create', $row->id); ?>">Withdraw</a></li>
+                        <li><a class="dropdown-item" href="<?php echo route('transfers.create', $row->id); ?>">Transfer</a></li>
                         <li><a class="dropdown-item" href="<?php echo route('bankAccounts.show', $row->id); ?>">Report</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="<?php echo route('bankAccounts.edit', $row->id); ?>">Edit</a></li>
@@ -88,7 +88,6 @@ class BankAccountController extends Controller
             Session::flash('flash_message','Data Successfully Added.');
             return redirect()->route('bankAccounts.index')->with('status_color','success');
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
