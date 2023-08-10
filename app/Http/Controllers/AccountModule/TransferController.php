@@ -4,7 +4,6 @@ namespace App\Http\Controllers\AccountModule;
 
 use App\Enum\TransactionType;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BankAccount\DepositRequest;
 use App\Http\Requests\BankAccount\TransferRequest;
 use App\Http\Requests\Filter\DateFilter;
 use App\Models\BankAccount;

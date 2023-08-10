@@ -146,6 +146,37 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <!-------------- voucher module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.voucher').'/types' || $url==config('app.voucher').'/types/create' || $url==(request()->is(config('app.voucher').'/types/*/edit')) ||
+                                    $url==config('app.voucher').'/subTypes' || $url==config('app.voucher').'/subTypes/create' || $url==(request()->is(config('app.voucher').'/subTypes/*/edit')) ||
+                                    $url==config('app.voucher').'/vouchers' || $url==config('app.voucher').'/vouchers/create' || $url==(request()->is(config('app.voucher').'/vouchers/*/edit')) ||
+                                    $url==config('app.voucher').'/transactions/receiveReport' ||
+                                    $url==config('app.voucher').'/transactions/paymentReport') ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">Voucher Managment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.voucher').'/types'}}" class="{{($url==config('app.voucher').'/types' || $url==config('app.voucher').'/types/create' || $url==(request()->is(config('app.voucher').'/types/*/edit'))) ? 'current-page':''}}">Type</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.voucher').'/subTypes'}}" class="{{($url==config('app.voucher').'/subTypes' || $url==config('app.voucher').'/subTypes/create' || $url==(request()->is(config('app.voucher').'/subTypes/*/edit'))) ? 'current-page':''}}">Sub Type</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.voucher').'/vouchers'}}" class="{{($url==config('app.voucher').'/vouchers' || $url==config('app.voucher').'/vouchers/create' || $url==(request()->is(config('app.voucher').'/vouchers/*/edit'))) ? 'current-page':''}}">Voucher</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.voucher').'/transactions/receiveReport'}}" class="{{($url==config('app.voucher').'/transactions/receiveReport') ? 'current-page':''}}">Receive Report</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.voucher').'/transactions/paymentReport'}}" class="{{($url==config('app.voucher').'/transactions/paymentReport') ? 'current-page':''}}">Payment Report</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <!-------------- user part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.user').'/user-list' || $url==config('app.user').'/user-list/create' || $url==(request()->is(config('app.user').'/user-list/*/edit')) ||

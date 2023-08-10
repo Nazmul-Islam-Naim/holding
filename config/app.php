@@ -60,6 +60,7 @@ return [
     'asset_url' => env('ASSET_URL'),
     'user' => 'user',
     'account' => 'account',
+    'voucher' => 'voucher',
 
     /*
     |--------------------------------------------------------------------------
