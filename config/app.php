@@ -61,6 +61,7 @@ return [
     'user' => 'user',
     'account' => 'account',
     'voucher' => 'voucher',
+    'project' => 'project',
 
     /*
     |--------------------------------------------------------------------------

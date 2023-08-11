@@ -75,7 +75,7 @@ class UserController extends Controller
         $data = $request->all();
         $data['password'] = Hash::make($request->password);
 
-        $data = $this->storeFile($data);
+        $data = $this->storeFile($data, 'user');
 
         try{
             User::create($data);
@@ -131,7 +131,7 @@ class UserController extends Controller
         }else{
             $data['password'] = $user->password;
         }
-        $data = $this->updateFile($user, $data);
+        $data = $this->updateFile($user, $data, 'user');
         $method = Arr::pull($data, '_method');
         $token = Arr::pull($data, '_token');
         try{

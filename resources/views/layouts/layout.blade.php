@@ -177,6 +177,21 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <!-------------- project module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.project').'/projects' || $url==config('app.project').'/projects/create' || $url==(request()->is(config('app.project').'/projects/*/edit'))) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">Project Managment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.project').'/projects'}}" class="{{($url==config('app.project').'/projects' || $url==config('app.project').'/projects/create' || $url==(request()->is(config('app.project').'/projects/*/edit'))) ? 'current-page':''}}">Project</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <!-------------- user part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.user').'/user-list' || $url==config('app.user').'/user-list/create' || $url==(request()->is(config('app.user').'/user-list/*/edit')) ||

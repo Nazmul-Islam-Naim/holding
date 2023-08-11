@@ -13,6 +13,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Voucher\SubTypeController;
 use App\Http\Controllers\Voucher\TypeController;
 use App\Http\Controllers\Voucher\VoucherController;
@@ -98,6 +99,10 @@ Route::middleware('auth')->group(function () {
         Route::get('transactions/paymentReport', [VoucherTransactionController::class, 'paymentReport'])->name('voucherTransaction.paymentReport');
     });
 
+    //****************** voucher **********//
+    Route::prefix(config('app.project'))->group(function () {
+        Route::resource('projects', ProjectController::class);
+    });
 
 });
 
