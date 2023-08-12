@@ -88,7 +88,6 @@
                   name="avatar" 
                   class="@error('avatar') is-invalid @enderror" 
                   value="{{old('avatar')}}" 
-                  placeholder="short note"
                   >
                   <div class="field-placeholder">Avatar</div>
                 </div>

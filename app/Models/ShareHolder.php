@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Project extends Model
+class ShareHolder extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'projects';
+    protected $table = 'share_holders';
     protected $fillable = [
-        'title', 'slug', 'location', 'description', 'total_share', 'avatar', 'status'
+        'name', 'phone', 'mail', 'avatar', 'nid', 'details', 'bill', 'collection', 'due', 'status'
     ];
 
     //relation
-    public function shares(){
-        return $this->hasMany(ProjectShare::class);
+    public function share(){
+        return $this->hasOne(ProjectShare::class);
     }
 
     public function billCollections(){

@@ -12,6 +12,7 @@ enum TransactionType: int
     case Transfer     =   4;
     case Receive      =   5;
     case Payment      =   6;
+    case Bill      =   7;
 
     /**
      * [Will return cases name list]
@@ -93,6 +94,7 @@ enum TransactionType: int
             self::Transfer=>"Transfer",
             self::Receive=>"Receive",
             self::Payment=>"Payment",
+            self::Bill=>"Bill",
         };
     }
 

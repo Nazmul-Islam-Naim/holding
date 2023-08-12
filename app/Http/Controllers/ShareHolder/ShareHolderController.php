@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Project;
+namespace App\Http\Controllers\ShareHolder;
 
-use App\Enum\ProjectStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Project\CreateRequest;
-use App\Http\Requests\Project\UpdateRequest;
-use App\Models\Project;
+use App\Http\Requests\ShareHolder\CreateRequest;
+use App\Http\Requests\ShareHolder\UpdateRequest;
+use App\Models\ShareHolder;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
-class ProjectController extends Controller
+class ShareHolderController extends Controller
 {
     use FileUploadTrait;
     /**
@@ -21,19 +20,15 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= Project::all();
+            $alldata= ShareHolder::all();
             return DataTables::of($alldata)
             ->addIndexColumn()
-            ->addColumn('status', function ($row) {
-                $bgClass = $row->status == ProjectStatus::getFromName('Running')->value ? 'bg-warning' : ($row->status == ProjectStatus::getFromName('Stop')->value ? 'bg-danger' : 'bg-success');
-                return '<span data-id="' . $row->id . '" class="badge '.$bgClass.' badge-sm button-status">' . ProjectStatus::getByValue($row->status) . '</span>';
-            })
             ->addColumn('action', function ($row) {
                 ob_start() ?>
                 
                 <ul class="list-inline m-0">
                     <li class="list-inline-item">
-                        <a href="<?php echo route('projects.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
+                        <a href="<?php echo route('shareHolders.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
                     </li>
                     <li class="list-inline-item">
                         <button data-id="<?php echo $row->id; ?>" class="badge bg-danger badge-sm button-delete"><i class="icon-delete"></i></button>
@@ -42,10 +37,9 @@ class ProjectController extends Controller
 
                 <?php return ob_get_clean();
             })
-            ->rawColumns(['status', 'action'])
             ->make(True);
         }
-        return view('project.index');
+        return view('shareHolder.index');
     }
 
     /**
@@ -53,7 +47,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('project.create');
+        return view('shareHolder.create');
     }
 
     /**
@@ -63,10 +57,10 @@ class ProjectController extends Controller
     {
         try {
             $data = $request->all();
-            $data = $this->storeFile($data, 'project');
-            Project::create($data);
+            $data = $this->storeFile($data, 'shareHolder');
+            ShareHolder::create($data);
             Session::flash('flash_message','Data Successfully Added.');
-            return redirect()->route('projects.index')->with('status_color','success');
+            return redirect()->route('shareHolders.index')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -78,8 +72,8 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $data['project'] = Project::findOrFail($id);
-        return view('project.show', $data);
+        $data['shareHolder'] = ShareHolder::findOrFail($id);
+        return view('shareHolder.show', $data);
     }
 
     /**
@@ -87,8 +81,8 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        $data['project'] = Project::findOrFail($id);
-        return view('project.edit', $data);
+        $data['shareHolder'] = ShareHolder::findOrFail($id);
+        return view('shareHolder.edit', $data);
     }
 
     /**
@@ -97,13 +91,13 @@ class ProjectController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         try {
-            $project = Project::findOrFail($id);
+            $shareHolder = ShareHolder::findOrFail($id);
             $data = $request->all();
-            $data = $this->updateFile($project, $data, 'project');
+            $data = $this->updateFile($shareHolder, $data, 'shareHolder');
             $inputData = array_diff_key($data, array_flip(['_method', '_token']));
-            $project->update($inputData);
+            $shareHolder->update($inputData);
             Session::flash('flash_message','Data Successfully Updated.');
-            return redirect()->route('projects.index')->with('status_color','success');
+            return redirect()->route('shareHolders.index')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -116,11 +110,11 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         try{
-            $project = Project::findOrFail($id);
-            $this->destroyFile($project);
-            $project->delete();
+            $shareHolder = ShareHolder::findOrFail($id);
+            $this->destroyFile($shareHolder);
+            $shareHolder->delete();
             Session::flash('flash_message','Data Successfully Deleted !');
-            return redirect()->route('projects.index')->with('status_color','success');
+            return redirect()->route('shareHolders.index')->with('status_color','success');
         }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');

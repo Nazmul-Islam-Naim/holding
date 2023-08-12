@@ -87,8 +87,7 @@
                   type="file" 
                   name="avatar" 
                   class="@error('avatar') is-invalid @enderror" 
-                  value="{{old('avatar')}}" 
-                  placeholder="short note"
+                  value="{{old('avatar')}}"
                   >
                   <div class="field-placeholder">Avatar</div>
                 </div>

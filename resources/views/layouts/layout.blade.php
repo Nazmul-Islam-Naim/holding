@@ -192,6 +192,36 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <!-------------- shareholder module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.shareholder').'/shareHolders' || $url==config('app.shareholder').'/shareHolders/create' || $url==(request()->is(config('app.shareholder').'/shareHolders/*/edit'))) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">Shareholder Managment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.shareholder').'/shareHolders'}}" class="{{($url==config('app.shareholder').'/shareHolders' || $url==config('app.shareholder').'/shareHolders/create' || $url==(request()->is(config('app.shareholder').'/shareHolders/*/edit'))) ? 'current-page':''}}">Shareholder</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <!-------------- share module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit'))) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">Share Managment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.share').'/projectShares'}}" class="{{($url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit'))) ? 'current-page':''}}">Share Distribution</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <!-------------- user part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.user').'/user-list' || $url==config('app.user').'/user-list/create' || $url==(request()->is(config('app.user').'/user-list/*/edit')) ||

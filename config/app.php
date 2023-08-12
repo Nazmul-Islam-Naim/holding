@@ -62,6 +62,8 @@ return [
     'account' => 'account',
     'voucher' => 'voucher',
     'project' => 'project',
+    'shareholder' => 'shareholder',
+    'share' => 'share',
 
     /*
     |--------------------------------------------------------------------------

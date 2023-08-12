@@ -37,4 +37,8 @@ class BankAccount extends Model
     public function voucherTransaction(){
         return $this->hasMany(VoucherTransaction::class);
     }
+
+    public function shareCollectios(){
+        return $this->hasMany(ProjectShareholder::class);
+    }
 }
