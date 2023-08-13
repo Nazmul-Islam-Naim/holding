@@ -72,14 +72,6 @@
                 extend: 'excel',
                 exportOptions: {
                     columns: [ 0, 1, 2, 3, 4],
-                    format: {
-                      body: function (data, row, column, node) {
-                        if (column) {
-                            return data.replace(/\n/ig, "<br/>");
-                        }
-                        // return column === 7 ? data.replace(/\n/ig, "<br/>") : data;
-                      }
-                    }
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -102,14 +94,6 @@
                 },
                 exportOptions: {
                     columns: [ 0, 1, 2, 3, 4],
-                    format: {
-                      body: function (data, row, column, node) {
-                        if (column) {
-                            return data.replace(/\n/ig, "<br/>");
-                        }
-                        // return column === 7 ? data.replace(/\n/ig, "<br/>") : data;
-                      }
-                    }
                 },
                 messageBottom: null
             }

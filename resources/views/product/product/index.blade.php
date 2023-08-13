@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'Project Shares')
+@section('title', 'Products')
 @section('content')
 <!-- Content wrapper scroll start -->
 <div class="content-wrapper-scroll">
@@ -15,8 +15,8 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">Project Shares</h3>
-              <a href="{{route('projectShares.create')}}" class="btn btn-primary btn-sm"><i class="icon-plus-circle"></i> Distribute Share</a>
+              <h3 class="card-title">Products</h3>
+              <a href="{{route('products.create')}}" class="btn btn-primary btn-sm"><i class="icon-plus-circle"></i> Add Product</a>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -27,12 +27,10 @@
                     <thead> 
                       <tr class="dt-top"> 
                         <th class="dt-wrap">Sl</th>
-                        <th class="dt-wrap">Date</th> 
-                        <th class="dt-wrap">Project Title</th> 
-                        <th class="dt-wrap">Shareholder Name</th>
-                        <th class="dt-wrap">Shareholder Phone</th>
-                        <th class="dt-wrap">Total Share</th> 
-                        <th class="dt-wrap">Total Bill</th> 
+                        <th class="dt-wrap">Title</th> 
+                        <th class="dt-wrap">Category</th>
+                        <th class="dt-wrap">Unit</th>
+                        <th class="dt-wrap">Brand</th> 
                         <th class="dt-wrap">Action</th> 
                       </tr>
                     </thead>
@@ -57,24 +55,6 @@
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
 
-  
-function dateFormat(data) { 
-    let date, month, year;
-    date = data.getDate();
-    month = data.getMonth() + 1;
-    year = data.getFullYear();
-
-    date = date
-        .toString()
-        .padStart(2, '0');
-
-    month = month
-        .toString()
-        .padStart(2, '0');
-
-    return `${date}-${month}-${year}`;
-  }
-
 	$(document).ready(function() {
 	  'use strict';
 
@@ -82,7 +62,7 @@ function dateFormat(data) {
       serverSide: true,
       processing: true,
       ajax: {
-        url: '{{route("projectShares.index")}}',
+        url: '{{route("products.index")}}',
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -91,7 +71,7 @@ function dateFormat(data) {
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6],
+                    columns: [ 0, 1, 2, 3, 4],
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -113,7 +93,7 @@ function dateFormat(data) {
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');   
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6],
+                    columns: [ 0, 1, 2, 3, 4],
                 },
                 messageBottom: null
             }
@@ -123,45 +103,38 @@ function dateFormat(data) {
       columns: [
         {data: 'DT_RowIndex'},
         {
-          data: 'date',
-          render: function(data, type, row) {
-            if (data != null) {
-              return dateFormat(new Date(data)).toString();
+          data: 'title',
+        },
+        {
+          data: 'product_category.title',
+          render: function(data, type, row){
+            if (data != '') {
+              return data; 
+            } else {
+              return '';
             }
           }
         },
         {
-          data: 'project.title',
-          render:function(data, type, row){
+          data: 'product_unit.title',
+          render: function(data, type, row){
             if (data != '') {
-              return data;
+              return data; 
             } else {
-              return ''
+              return '';
             }
           }
         },
         {
-          data: 'share_holder.name',
-          render:function(data, type, row){
+          data: 'product_brand.title',
+          render: function(data, type, row){
             if (data != '') {
-              return data;
+              return data; 
             } else {
-              return ''
+              return '';
             }
           }
         },
-        {
-          data: 'share_holder.phone',
-          render:function(data, type, row){
-            if (data != '') {
-              return data;
-            } else {
-              return ''
-            }
-          }
-        },
-        {data: 'total_share'},
-        {data: 'total_amount'},
         {data: 'action'},
       ]
     });
@@ -175,7 +148,7 @@ function dateFormat(data) {
           return false;
         }
         var id = $(this).data('id');
-        var link = '{{route("projectShares.destroy",":id")}}';
+        var link = '{{route("products.destroy",":id")}}';
         var link = link.replace(':id', id);
         var token = '{{csrf_token()}}';
         $.ajax({

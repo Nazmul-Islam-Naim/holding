@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ProjectShare;
 
 use App\Enum\TransactionType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Filter\DateFilter;
 use App\Http\Requests\ShareCollection\CreateRequest;
 use App\Http\Requests\ShareCollection\UpdateRequest;
 use App\Models\BankAccount;
@@ -24,7 +25,7 @@ class ShareCollectionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= ProjectShare::with(['project', 'shareHolder'])->get();
+            $alldata= ProjectShare::with(['project', 'shareHolder'])->where('due', '>', 0)->get();
             return DataTables::of($alldata)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
@@ -181,9 +182,18 @@ class ShareCollectionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function report(Request $request)
+    public function report(DateFilter $request)
     {
-        //
+        if ($request->start_date != '' && $request->end_date != '') {
+            $data['projectShareholders'] = ProjectShareholder::where('transaction_type', TransactionType::getFromName('Receive')->value)
+                                ->whereBetween('date', [$request->start_date, $request->end_date])
+                                ->paginate(250);
+            return view('shareCollection.report', $data);
+        } else {
+            $data['projectShareholders'] = ProjectShareholder::where('transaction_type', TransactionType::getFromName('Receive')->value)
+                                ->paginate(250);
+            return view('shareCollection.report', $data);
+        }
     }
 
     /**

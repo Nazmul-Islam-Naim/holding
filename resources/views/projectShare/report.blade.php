@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'Project Shares')
+@section('title', 'Share Report')
 @section('content')
 <!-- Content wrapper scroll start -->
 <div class="content-wrapper-scroll">
@@ -15,8 +15,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">Project Shares</h3>
-              <a href="{{route('projectShares.create')}}" class="btn btn-primary btn-sm"><i class="icon-plus-circle"></i> Distribute Share</a>
+              <h3 class="card-title">Share Report</h3>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -32,8 +31,9 @@
                         <th class="dt-wrap">Shareholder Name</th>
                         <th class="dt-wrap">Shareholder Phone</th>
                         <th class="dt-wrap">Total Share</th> 
-                        <th class="dt-wrap">Total Bill</th> 
-                        <th class="dt-wrap">Action</th> 
+                        <th class="dt-wrap">Bill</th> 
+                        <th class="dt-wrap">Collection</th> 
+                        <th class="dt-wrap">Due</th> 
                       </tr>
                     </thead>
                   </table>
@@ -82,7 +82,7 @@ function dateFormat(data) {
       serverSide: true,
       processing: true,
       ajax: {
-        url: '{{route("projectShares.index")}}',
+        url: '{{route("projectShares.report")}}',
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -91,7 +91,7 @@ function dateFormat(data) {
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6],
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8],
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -113,7 +113,7 @@ function dateFormat(data) {
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');   
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6],
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8],
                 },
                 messageBottom: null
             }
@@ -136,7 +136,7 @@ function dateFormat(data) {
             if (data != '') {
               return data;
             } else {
-              return ''
+              return '';
             }
           }
         },
@@ -146,7 +146,7 @@ function dateFormat(data) {
             if (data != '') {
               return data;
             } else {
-              return ''
+              return '';
             }
           }
         },
@@ -156,40 +156,24 @@ function dateFormat(data) {
             if (data != '') {
               return data;
             } else {
-              return ''
+              return '';
             }
           }
         },
         {data: 'total_share'},
         {data: 'total_amount'},
-        {data: 'action'},
+        {
+          data: 'total_amount',
+          render:function(data, type, row){
+            if (data != '') {
+              return (data - row.due).toFixed(2);
+            } else {
+              return 0.00
+            }
+          }
+        },
+        {data: 'due'},
       ]
-    });
-
-    //-------- Delete single data with Ajax --------------//
-    $("#example").on("click", ".button-delete", function(e) {
-			  e.preventDefault();
-
-        var confirm = window.confirm('Are you sure want to delete data?');
-        if (confirm != true) {
-          return false;
-        }
-        var id = $(this).data('id');
-        var link = '{{route("projectShares.destroy",":id")}}';
-        var link = link.replace(':id', id);
-        var token = '{{csrf_token()}}';
-        $.ajax({
-          url: link,
-          type: 'POST',
-          data: {
-            '_method': 'DELETE',
-            '_token': token
-          },
-          success: function(data) {
-            table.ajax.reload();
-          },
-
-        });
     });
 
 });

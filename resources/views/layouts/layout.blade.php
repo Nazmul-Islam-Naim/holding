@@ -210,7 +210,9 @@
                                 <!-------------- share module part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit')) ||
-                                    $url==config('app.share').'/shareCollections' || $url==config('app.share').'/shareCollections/create') ? 'active':''}}">
+                                    $url==config('app.share').'/projectShare/report' ||
+                                    $url==config('app.share').'/shareCollections' || $url==config('app.share').'/shareCollections/create' ||
+                                    $url==config('app.share').'/shareCollections/report') ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-user"></i>
                                         <span class="menu-text">Share Managment</span>
@@ -221,7 +223,40 @@
                                                 <a href="{{$baseUrl.'/'.config('app.share').'/projectShares'}}" class="{{($url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit'))) ? 'current-page':''}}">Share Distribution</a>
                                             </li>
                                             <li>
+                                                <a href="{{$baseUrl.'/'.config('app.share').'/projectShare/report'}}" class="{{($url==config('app.share').'/projectShare/report') ? 'current-page':''}}">Share Report</a>
+                                            </li>
+                                            <li>
                                                 <a href="{{$baseUrl.'/'.config('app.share').'/shareCollections'}}" class="{{($url==config('app.share').'/shareCollections' || $url==config('app.share').'/shareCollections/create') ? 'current-page':''}}">Share Collection</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.share').'/shareCollections/report'}}" class="{{($url==config('app.share').'/shareCollections/report') ? 'current-page':''}}">Share Collection Report</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <!-------------- product module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.product').'/productCategories' || $url==config('app.product').'/productCategories/create' || $url==(request()->is(config('app.product').'/productCategories/*/edit')) ||
+                                    $url==config('app.product').'/productUnits' || $url==config('app.product').'/productUnits/create' || $url==(request()->is(config('app.product').'/productUnits/*/edit')) ||
+                                    $url==config('app.product').'/productBrands' || $url==config('app.product').'/productBrands/create' || $url==(request()->is(config('app.product').'/productBrands/*/edit')) ||
+                                    $url==config('app.product').'/products' || $url==config('app.product').'/products/create' || $url==(request()->is(config('app.product').'/products/*/edit'))) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">Product Managment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.product').'/productCategories'}}" class="{{($url==config('app.product').'/productCategories' || $url==config('app.product').'/productCategories/create' || $url==(request()->is(config('app.product').'/productCategories/*/edit'))) ? 'current-page':''}}">Product Category</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.product').'/productUnits'}}" class="{{($url==config('app.product').'/productUnits' || $url==config('app.product').'/productUnits/create' || $url==(request()->is(config('app.product').'/productUnits/*/edit'))) ? 'current-page':''}}">Product Unit</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.product').'/productBrands'}}" class="{{($url==config('app.product').'/productBrands' || $url==config('app.product').'/productBrands/create' || $url==(request()->is(config('app.product').'/productBrands/*/edit'))) ? 'current-page':''}}">Product Brand</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.product').'/products'}}" class="{{($url==config('app.product').'/products' || $url==config('app.product').'/products/create' || $url==(request()->is(config('app.product').'/products/*/edit'))) ? 'current-page':''}}">Product</a>
                                             </li>
                                         </ul>
                                     </div>

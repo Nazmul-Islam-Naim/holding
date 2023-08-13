@@ -174,4 +174,19 @@ class ProjectShareController extends Controller
             return redirect()->back()->with('status_color','danger');
         }
     }
+
+    /**
+     * Desplay all share
+     */
+    public function report(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= ProjectShare::with(['project', 'shareHolder'])->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()
+            ->make(True);
+        }
+        return view('projectShare.report');
+    }
+
 }
