@@ -9,15 +9,12 @@ use App\Http\Requests\ProjectShare\UpdateRequest;
 use App\Models\Project;
 use App\Models\ProjectShare;
 use App\Models\ShareHolder;
-use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
 class ProjectShareController extends Controller
 {
-    use FileUploadTrait;
     /**
      * Display a listing of the resource.
      */
@@ -95,7 +92,6 @@ class ProjectShareController extends Controller
             }
             
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

@@ -10,7 +10,7 @@ class ProjectShare extends Model
     use HasFactory;
     protected $table = 'project_shares';
     protected $fillable = [
-        'project_id', 'share_holder_id', 'total_share', 'share_amount', 'total_amount', 'date'
+        'project_id', 'share_holder_id', 'total_share', 'share_amount', 'total_amount', 'due', 'date'
     ];
 
     //relations

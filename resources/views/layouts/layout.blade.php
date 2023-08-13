@@ -209,7 +209,8 @@
                                 </li>
                                 <!-------------- share module part ------------>
                                 <li class="default-sidebar-dropdown {{(
-                                    $url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit'))) ? 'active':''}}">
+                                    $url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit')) ||
+                                    $url==config('app.share').'/shareCollections' || $url==config('app.share').'/shareCollections/create') ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-user"></i>
                                         <span class="menu-text">Share Managment</span>
@@ -218,6 +219,24 @@
                                         <ul>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.share').'/projectShares'}}" class="{{($url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit'))) ? 'current-page':''}}">Share Distribution</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.share').'/shareCollections'}}" class="{{($url==config('app.share').'/shareCollections' || $url==config('app.share').'/shareCollections/create') ? 'current-page':''}}">Share Collection</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <!-------------- amendment module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.share').'/shareCollections/amendment' ||  $url==(request()->is(config('app.share').'/shareCollections/*/edit'))) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">Amendment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.share').'/shareCollections/amendment'}}" class="{{($url==config('app.share').'/shareCollections/amendment' || $url==(request()->is(config('app.share').'/shareCollections/*/edit'))) ? 'current-page':''}}">Share Collection</a>
                                             </li>
                                         </ul>
                                     </div>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class ProjectShareholder extends Model
 {
@@ -28,5 +29,10 @@ class ProjectShareholder extends Model
 
     public function bankAccount(){
         return $this->belongsTo(BankAccount::class);
+    }
+    
+    public function transaction(): MorphOne
+    {
+        return $this->morphOne(Transaction::class, 'transactionable');
     }
 }

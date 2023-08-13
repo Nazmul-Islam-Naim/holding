@@ -32,7 +32,8 @@ class CreateRequest extends FormRequest
 
     public function prepareForValidation(){
         return $this->merge([
-            'total_amount' => $this->total_share * $this->share_amount
+            'total_amount' => $this->total_share * $this->share_amount,
+            'due' => $this->total_share * $this->share_amount
         ]);
     }
 }

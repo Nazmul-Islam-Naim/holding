@@ -10,6 +10,7 @@ use App\Http\Controllers\AccountModule\TransactionController;
 use App\Http\Controllers\AccountModule\TransferController;
 use App\Http\Controllers\AccountModule\WithdrawController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProjectShare\ShareCollectionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProjectShare\ProjectShareController;
@@ -114,6 +115,15 @@ Route::middleware('auth')->group(function () {
     //****************** share **********//
     Route::prefix(config('app.share'))->group(function () {
         Route::resource('projectShares', ProjectShareController::class);
+        
+        Route::get('shareCollections', [ShareCollectionController::class, 'index'])->name('shareCollections.index'); //un used
+        Route::get('shareCollections/create/{id}', [ShareCollectionController::class, 'create'])->name('shareCollections.create');
+        Route::post('shareCollections/store/{id}', [ShareCollectionController::class, 'store'])->name('shareCollections.store');
+        Route::get('shareCollections/{id}/edit', [ShareCollectionController::class, 'edit'])->name('shareCollections.edit'); //un used
+        Route::put('shareCollections/update/{id}', [ShareCollectionController::class, 'update'])->name('shareCollections.update'); //un used
+        Route::delete('shareCollections/destroy/{id}', [ShareCollectionController::class, 'destroy'])->name('shareCollections.destroy'); //un used
+        Route::get('shareCollections/report', [ShareCollectionController::class, 'report'])->name('shareCollections.report'); //un used
+        Route::get('shareCollections/amendment', [ShareCollectionController::class, 'amendment'])->name('shareCollections.amendment');
     });
 });
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\ProjectShare;
+namespace App\Http\Requests\ShareCollection;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,9 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'share_holder_id' => ['required'],
-            'total_share' => ['required', 'numeric'],
-            'share_amount' => ['required', 'numeric'],
+            'bank_account_id' => ['required'],
+            'amount' => ['required', 'numeric'],
             'date' => ['required', 'date_format:Y-m-d'],
         ];
-    }
-    
-    public function prepareForValidation(){
-        return $this->merge([
-            'total_amount' => $this->total_share * $this->share_amount,
-            'due' => $this->total_share * $this->share_amount
-        ]);
     }
 }

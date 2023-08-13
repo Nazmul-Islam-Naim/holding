@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('total_share')->default(0);
             $table->decimal('share_amount', 15,2)->default(0);
             $table->decimal('total_amount', 15,2)->default(0);
+            $table->decimal('due', 15,2)->default(0);
             $table->date('date');
             $table->timestamps();
         });
