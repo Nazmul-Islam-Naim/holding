@@ -239,7 +239,9 @@
                                     $url==config('app.product').'/productCategories' || $url==config('app.product').'/productCategories/create' || $url==(request()->is(config('app.product').'/productCategories/*/edit')) ||
                                     $url==config('app.product').'/productUnits' || $url==config('app.product').'/productUnits/create' || $url==(request()->is(config('app.product').'/productUnits/*/edit')) ||
                                     $url==config('app.product').'/productBrands' || $url==config('app.product').'/productBrands/create' || $url==(request()->is(config('app.product').'/productBrands/*/edit')) ||
-                                    $url==config('app.product').'/products' || $url==config('app.product').'/products/create' || $url==(request()->is(config('app.product').'/products/*/edit'))) ? 'active':''}}">
+                                    $url==config('app.product').'/products' || $url==config('app.product').'/products/create' || $url==(request()->is(config('app.product').'/products/*/edit')) ||
+                                    $url==config('app.product').'/stocks/project' || $url==(request()->is(config('app.product').'/stocks/project/products/*')) ||
+                                    $url==config('app.product').'/stocks/details/products') ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-user"></i>
                                         <span class="menu-text">Product Managment</span>
@@ -258,12 +260,50 @@
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.product').'/products'}}" class="{{($url==config('app.product').'/products' || $url==config('app.product').'/products/create' || $url==(request()->is(config('app.product').'/products/*/edit'))) ? 'current-page':''}}">Product</a>
                                             </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.product').'/stocks/project'}}" class="{{($url==config('app.product').'/stocks/project' || $url==(request()->is(config('app.product').'/stocks/project/products/*'))) ? 'current-page':''}}">Stock Product</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.product').'/stocks/details/products'}}" class="{{($url==config('app.product').'/stocks/details/products') ? 'current-page':''}}">Stock Details</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <!-------------- purchase module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.purchase').'/localSuppliers' || $url==config('app.purchase').'/localSuppliers/create' || $url==(request()->is(config('app.purchase').'/localSuppliers/*/edit')) ||
+                                    $url==config('app.purchase').'/payableSuppliers' || $url==(request()->is(config('app.purchase').'/paymentForm/*')) ||
+                                    $url==config('app.purchase').'/paymentsReport' ||
+                                    $url==config('app.purchase').'/paymentDueReport' ||
+                                    $url==config('app.purchase').'/localPurchases' || $url==config('app.purchase').'/localPurchases/create') ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">Purchase Managment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.purchase').'/localSuppliers'}}" class="{{($url==config('app.purchase').'/localSuppliers' || $url==config('app.purchase').'/localSuppliers/create' || $url==(request()->is(config('app.purchase').'/localSuppliers/*/edit'))) ? 'current-page':''}}">Supplier</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.purchase').'/payableSuppliers'}}" class="{{($url==config('app.purchase').'/payableSuppliers' || $url==(request()->is(config('app.purchase').'/paymentForm/*'))) ? 'current-page':''}}">Payable Supplier</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.purchase').'/paymentsReport'}}" class="{{($url==config('app.purchase').'/paymentsReport') ? 'current-page':''}}">Payment Report</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.purchase').'/paymentDueReport'}}" class="{{($url==config('app.purchase').'/paymentDueReport') ? 'current-page':''}}">Payment Due Report</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.purchase').'/localPurchases'}}" class="{{($url==config('app.purchase').'/localPurchases' || $url==config('app.purchase').'/localPurchases/create') ? 'current-page':''}}">Purchase</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>
                                 <!-------------- amendment module part ------------>
                                 <li class="default-sidebar-dropdown {{(
-                                    $url==config('app.share').'/shareCollections/amendment' ||  $url==(request()->is(config('app.share').'/shareCollections/*/edit'))) ? 'active':''}}">
+                                    $url==config('app.share').'/shareCollections/amendment' ||  $url==(request()->is(config('app.share').'/shareCollections/*/edit')) ||
+                                    $url==config('app.purchase').'/localPurchaseList/amendment' || $url==(request()->is(config('app.purchase').'/localPurchaseList/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-user"></i>
                                         <span class="menu-text">Amendment</span>
@@ -272,6 +312,9 @@
                                         <ul>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.share').'/shareCollections/amendment'}}" class="{{($url==config('app.share').'/shareCollections/amendment' || $url==(request()->is(config('app.share').'/shareCollections/*/edit'))) ? 'current-page':''}}">Share Collection</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.purchase').'/localPurchaseList/amendment'}}" class="{{($url==config('app.purchase').'/localPurchaseList/amendment' || $url==(request()->is(config('app.purchase').'/localPurchaseList/*/edit'))) ? 'current-page':''}}">Purchase</a>
                                             </li>
                                         </ul>
                                     </div>

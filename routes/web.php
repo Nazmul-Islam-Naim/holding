@@ -14,11 +14,14 @@ use App\Http\Controllers\Product\ProductBrandController;
 use App\Http\Controllers\Product\ProductCategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductUnitController;
+use App\Http\Controllers\Product\StockController;
 use App\Http\Controllers\ProjectShare\ShareCollectionController;
+use App\Http\Controllers\Purchase\LocalPurchaseController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProjectShare\ProjectShareController;
 use App\Http\Controllers\ShareHolder\ShareHolderController;
+use App\Http\Controllers\Supplier\LocalSupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Voucher\SubTypeController;
@@ -137,6 +140,25 @@ Route::middleware('auth')->group(function () {
         Route::resource('productUnits', ProductUnitController::class);
         Route::resource('productBrands', ProductBrandController::class);
         Route::resource('products', ProductController::class);
+
+        Route::get('stocks/project', [StockController::class, 'projects'])->name('stocks.project');
+        Route::get('stocks/project/products/{id}', [StockController::class, 'projectStock'])->name('stocks.project.products');
+        Route::get('stocks/details/products', [StockController::class, 'stockDetails'])->name('stocks.details.products');
+    });
+
+    //****************** purchase **********//
+    Route::prefix(config('app.purchase'))->group(function () {
+        Route::resource('localSuppliers', LocalSupplierController::class);
+        Route::get('payableSuppliers', [LocalSupplierController::class, 'payableSuppliers'])->name('payableSuppliers');
+        Route::get('paymentForm/{id}', [LocalSupplierController::class, 'paymentForm'])->name('paymentForm');
+        Route::post('paymentStore', [LocalSupplierController::class, 'paymentStore'])->name('paymentStore');
+        Route::get('paymentsReport', [LocalSupplierController::class, 'paymentsReport'])->name('paymentsReport');
+        Route::get('paymentDueReport', [LocalSupplierController::class, 'paymentDueReport'])->name('paymentDueReport');
+
+        
+        Route::resource('localPurchases', LocalPurchaseController::class);
+        Route::get('localPurchaseList/amendment', [LocalPurchaseController::class, 'list'])->name('localPurchaseList');
+        Route::post('previousStock', [LocalPurchaseController::class, 'previousStock'])->name('previousStock');
     });
 });
 

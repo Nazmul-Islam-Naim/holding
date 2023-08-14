@@ -65,6 +65,7 @@ return [
     'shareholder' => 'shareholder',
     'share' => 'share',
     'product' => 'product',
+    'purchase' => 'purchase',
 
     /*
     |--------------------------------------------------------------------------

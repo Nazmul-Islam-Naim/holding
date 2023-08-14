@@ -22,4 +22,8 @@ class Project extends Model
     public function billCollections(){
         return $this->hasMany(ProjectShareholder::class);
     }
+
+    public function stocks(){
+        return $this->hasMany(Stock::class);
+    }
 }
