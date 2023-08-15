@@ -1,6 +1,9 @@
 @extends('layouts.layout')
-@section('title', 'Purchase Report')
+@section('title', 'Stock Out Details')
 @section('content')
+@php
+    $totalQuantity = 0;
+@endphp
 <!-- Content wrapper scroll start -->
 <div class="content-wrapper-scroll">
 
@@ -15,9 +18,8 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title" style="margin: 0;">Purchase Report</h3>
+            <h3 class="card-title" style="margin: 0;">Stock Out</h3>
             <div class="d-flex align-items-center">
-                <a href="{{ route('localPurchases.create') }}" class="btn btn-info btn-sm"><i class="icon-plus-circle"></i> Purchase Now</a>
                 <a onclick="printReport();" href="javascript:0;" style="margin-left: 10px;"><i class="icon-print"></i></a>
             </div>
           </div>
@@ -25,7 +27,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                <form method="get" action="{{route('localPurchases.index') }}">
+                <form method="get" action="{{route('stockOuts.detials') }}">
                   <div class="form-inline">
                     <div class="row">
                       <div class="col-md-3">
@@ -47,16 +49,16 @@
                       <div class="col-md-3">
                         <div class="field-wrapper">
                           <div class="input-group">
-                            <select name="supplier_id" class="form-control select2">
-                              <option value="">Select supplier</option>
-                              @foreach($localSuppliers as $localSupplier)
-                              <option value="{{$localSupplier->id}}">
-                                {{$localSupplier->name}}
+                            <select name="project_id" class="form-control select2">
+                              <option value="">Select project</option>
+                              @foreach($projects as $project)
+                              <option value="{{$project->id}}">
+                                {{$project->title}}
                               </option>
                               @endforeach
                             </select>
                           </div>
-                          <div class="field-placeholder">Supplier </div>
+                          <div class="field-placeholder">Project </div>
                         </div>
                       </div>
                       <div class="col-md-3">
@@ -70,9 +72,8 @@
                   </div>
                 </form>
               </div>
-
               <div class="col-md-12" id="printReport">
-                <center><h4 style="margin: 0px"> Purchase Report</h4></center>
+                <center><h4 style="margin: 0px"> Stock Out Report</h4></center>
                 @if(!empty($start_date) && !empty($end_date))
                   <center><h4 style="margin: 0px">From : {{Carbon\Carbon::parse($start_date)->format('d-m-Y')}} To : {{Carbon\Carbon::parse($end_date)->format('d-m-Y')}}</h4></center>
                 @else
@@ -85,29 +86,34 @@
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Sl</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Date</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Project Name</th>
-                        <th style="border: 1px solid #ddd; padding: 3px 3px">Supplier Name</th>
-                        <th style="border: 1px solid #ddd; padding: 3px 3px">Invoice</th>
-                        <th style="border: 1px solid #ddd; padding: 3px 3px">Note</th>
-                        <th style="border: 1px solid #ddd; padding: 3px 3px">Price</th>
+                        <th style="border: 1px solid #ddd; padding: 3px 3px">Product</th>
+                        <th style="border: 1px solid #ddd; padding: 3px 3px">Category</th>
+                        <th style="border: 1px solid #ddd; padding: 3px 3px">Unit</th>
+                        <th style="border: 1px solid #ddd; padding: 3px 3px">Brand</th>
+                        <th style="border: 1px solid #ddd; padding: 3px 3px">Quantity</th>
                       </tr>
                     </thead>
                     <tbody> 
-                      @foreach($localPurchases as $key => $data)
+                      @foreach($stockOutDetails as $key => $data)
                       <tr> 
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$key+1}}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{Carbon\Carbon::parse($data->stockOut->date)->format('d-m-Y')}}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->stockOut->project->title ?? ''}}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->product->title ?? ''}}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->product->productCategory->title ?? ''}}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->product->productUnit->title ?? ''}}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->product->productBrand->title ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">
-                          {{$key+1}}
+                          @php
+                              echo number_format($data->sum('quantity'), 2);
+                              $totalQuantity += $data->sum('quantity');
+                          @endphp
                         </td>
-                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{Carbon\Carbon::parse($data->date)->format('d-m-Y')}}</td>
-                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->project->title ?? ''}}</td>
-                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->supplier->name ?? ''}}</td>
-                        <td style="border: 1px solid #ddd; padding: 3px 3px"><a href="{{route('localPurchases.show',$data->id)}}">Invo#{{$data->id}}</a></td>
-                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->note}}</td>
-                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{number_format($data->amount, 2)}}</td>
                       </tr>
                       @endforeach
-                      @if($localPurchases->count() == 0)
+                      @if($stockOutDetails->count() == 0)
                         <tr>
-                          <td colspan="7" align="center">
+                          <td colspan="8" align="center">
                             <h4 style="color: #ccc">No Data Found . . .</h4>
                           </td>
                         </tr>
@@ -115,12 +121,12 @@
                     </tbody>
                     <tfoot> 
                       <tr> 
-                        <td colspan="6" style="text-align: center;font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><b>Total</b></td>
-                        <td style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><b>{{number_format($localPurchases->sum('amount'), 2)}}</b></td>
+                        <td colspan="7" style="text-align: center;font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><b>Total</b></td>
+                        <td style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><b>{{number_format($totalQuantity, 2)}}</b></td>
                       </tr>
                     </tfoot>
                   </table>
-                  <div class="col-md-12" align="right">{{$localPurchases->render()}}</div>
+                  <div class="col-md-12" align="right">{{$stockOutDetails->links()}}</div>
                 </div>
               </div>
             </div>

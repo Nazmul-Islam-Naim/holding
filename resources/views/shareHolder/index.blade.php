@@ -104,6 +104,11 @@
         {data: 'DT_RowIndex'},
         {
           data: 'name',
+          render: function(data, type, row) {
+            var url = '{{route("shareHolders.ledger",":id")}}'; 
+            var url = url.replace(':id', row.id);
+						return '<a href=' + url +'>'+ data +'</a>';
+					}
         },
         {data: 'phone'},
         {data: 'mail'},

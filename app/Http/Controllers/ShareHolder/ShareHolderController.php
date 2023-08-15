@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ShareHolder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ShareHolder\CreateRequest;
 use App\Http\Requests\ShareHolder\UpdateRequest;
+use App\Models\ProjectShareholder;
 use App\Models\ShareHolder;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
@@ -119,5 +120,15 @@ class ShareHolderController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
+    }
+
+    /**   [fetch all records]
+    *   @param $request
+    */
+    public function ledger($id)
+    {
+        $data['shareHolder'] = ShareHolder::findOrFail($id);
+        $data['transactions'] = ProjectShareholder::where('share_holder_id', $id)->paginate(250);
+        return view('shareHolder.ledger',$data);
     }
 }

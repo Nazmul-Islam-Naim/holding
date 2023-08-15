@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\CreateRequest;
 use App\Http\Requests\Project\UpdateRequest;
 use App\Models\Project;
+use App\Models\ProjectShare;
+use App\Models\ProjectShareholder;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -125,5 +127,15 @@ class ProjectController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
+    }
+
+    /**   [fetch all records]
+    *   @param $request
+    */
+    public function ledger($id)
+    {
+        $data['project'] = Project::findOrFail($id);
+        $data['transactions'] = ProjectShareholder::where('project_id', $id)->paginate(250);
+        return view('project.ledger',$data);
     }
 }

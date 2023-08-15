@@ -105,6 +105,11 @@
         {data: 'DT_RowIndex'},
         {
           data: 'title',
+          render: function(data, type, row) {
+            var url = '{{route("projects.ledger",":id")}}'; 
+            var url = url.replace(':id', row.id);
+						return '<a href=' + url +'>'+ data +'</a>';
+					}
         },
         {data: 'location'},
         {data: 'description'},

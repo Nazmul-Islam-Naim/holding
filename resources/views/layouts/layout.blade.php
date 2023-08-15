@@ -120,7 +120,7 @@
                                     $url==config('app.account').'/chequeNumbers' || $url==config('app.account').'/chequeNumbers/create' || $url==(request()->is(config('app.account').'/chequeNumbers/*/edit')) ||
                                     $url==config('app.account').'/transactions') ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-store_mall_directory"></i>
                                         <span class="menu-text">Account Managment</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
@@ -154,7 +154,7 @@
                                     $url==config('app.voucher').'/transactions/receiveReport' ||
                                     $url==config('app.voucher').'/transactions/paymentReport') ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-book"></i>
                                         <span class="menu-text">Voucher Managment</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
@@ -181,7 +181,7 @@
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.project').'/projects' || $url==config('app.project').'/projects/create' || $url==(request()->is(config('app.project').'/projects/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-layers2"></i>
                                         <span class="menu-text">Project Managment</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
@@ -196,7 +196,7 @@
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.shareholder').'/shareHolders' || $url==config('app.shareholder').'/shareHolders/create' || $url==(request()->is(config('app.shareholder').'/shareHolders/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-group_add"></i>
                                         <span class="menu-text">Shareholder Managment</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
@@ -214,7 +214,7 @@
                                     $url==config('app.share').'/shareCollections' || $url==config('app.share').'/shareCollections/create' ||
                                     $url==config('app.share').'/shareCollections/report') ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-call_split"></i>
                                         <span class="menu-text">Share Managment</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
@@ -243,7 +243,7 @@
                                     $url==config('app.product').'/stocks/project' || $url==(request()->is(config('app.product').'/stocks/project/products/*')) ||
                                     $url==config('app.product').'/stocks/details/products') ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-archive1"></i>
                                         <span class="menu-text">Product Managment</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
@@ -277,7 +277,7 @@
                                     $url==config('app.purchase').'/paymentDueReport' ||
                                     $url==config('app.purchase').'/localPurchases' || $url==config('app.purchase').'/localPurchases/create') ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-child_friendly"></i>
                                         <span class="menu-text">Purchase Managment</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
@@ -300,12 +300,31 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <!-------------- stock out module part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.product').'/stockOuts' || $url==config('app.product').'/stockOuts/create' || $url==(request()->is(config('app.product').'/stockOuts/*/edit')) ||
+                                    $url==config('app.product').'/stockOuts/product/details') ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-bar-chart"></i>
+                                        <span class="menu-text">Stock Out Managment</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.product').'/stockOuts'}}" class="{{($url==config('app.product').'/stockOuts' || $url==config('app.product').'/stockOuts/create' || $url==(request()->is(config('app.product').'/stockOuts/*/edit'))) ? 'current-page':''}}">Stock Out</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.product').'/stockOuts/product/details'}}" class="{{($url==config('app.product').'/stockOuts/product/details') ? 'current-page':''}}">Stock Out Details</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <!-------------- amendment module part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.share').'/shareCollections/amendment' ||  $url==(request()->is(config('app.share').'/shareCollections/*/edit')) ||
                                     $url==config('app.purchase').'/localPurchaseList/amendment' || $url==(request()->is(config('app.purchase').'/localPurchaseList/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-settings"></i>
                                         <span class="menu-text">Amendment</span>
                                     </a>
                                     <div class="default-sidebar-submenu">

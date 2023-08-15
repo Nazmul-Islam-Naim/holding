@@ -1,6 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Product;
+use App\Models\Project;
+use App\Models\ProjectShare;
+use App\Models\ShareHolder;
+use App\Models\Stock;
 
 
 class HomeController extends Controller
@@ -22,6 +27,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard.dashboard');
+        $data['projects'] = Project::count();
+        $data['sharholders'] = ShareHolder::count();
+        $data['shares'] = ProjectShare::sum('total_share');
+        $data['products'] = Product::count();
+        $data['stocks'] = Stock::sum('quantity');
+        $data['shareBills'] = ProjectShare::sum('total_amount');
+        $data['shareDues'] = ProjectShare::sum('due');
+        $data['shareCollecitons'] = $data['shareBills'] - $data['shareDues'];
+        return view('dashboard.dashboard',$data);
     }
 }

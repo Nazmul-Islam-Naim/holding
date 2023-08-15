@@ -8,7 +8,6 @@ use App\Http\Requests\LocalPurchase\CreateRequest;
 use App\Http\Requests\LocalPurchase\UpdateRequest;
 use App\Models\LocalPurchase;
 use App\Models\LocalSupplier;
-use App\Models\LocalSupplierLedger;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\Stock;

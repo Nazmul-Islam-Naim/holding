@@ -14,13 +14,14 @@ use App\Http\Controllers\Product\ProductBrandController;
 use App\Http\Controllers\Product\ProductCategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductUnitController;
-use App\Http\Controllers\Product\StockController;
+use App\Http\Controllers\Stock\StockController;
 use App\Http\Controllers\ProjectShare\ShareCollectionController;
 use App\Http\Controllers\Purchase\LocalPurchaseController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProjectShare\ProjectShareController;
 use App\Http\Controllers\ShareHolder\ShareHolderController;
+use App\Http\Controllers\Stock\StockOutController;
 use App\Http\Controllers\Supplier\LocalSupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Project\ProjectController;
@@ -112,11 +113,13 @@ Route::middleware('auth')->group(function () {
     //****************** project **********//
     Route::prefix(config('app.project'))->group(function () {
         Route::resource('projects', ProjectController::class);
+        Route::get('projects/ledger/{id}', [ProjectController::class, 'ledger'])->name('projects.ledger');
     });
 
     //****************** shareholder **********//
     Route::prefix(config('app.shareholder'))->group(function () {
         Route::resource('shareHolders', ShareHolderController::class);
+        Route::get('shareHolders/ledger/{id}', [ShareHolderController::class, 'ledger'])->name('shareHolders.ledger');
     });
 
     //****************** share **********//
@@ -144,6 +147,13 @@ Route::middleware('auth')->group(function () {
         Route::get('stocks/project', [StockController::class, 'projects'])->name('stocks.project');
         Route::get('stocks/project/products/{id}', [StockController::class, 'projectStock'])->name('stocks.project.products');
         Route::get('stocks/details/products', [StockController::class, 'stockDetails'])->name('stocks.details.products');
+        Route::resource('products', ProductController::class);
+
+        Route::resource('stockOuts', StockOutController::class);
+        Route::get('stockOuts/product/details', [StockOutController::class, 'stockOutProductDetails'])->name('stockOuts.detials');
+        Route::get('stockOuts/amendment', [StockOutController::class, 'list'])->name('stockOuts.list');
+        Route::post('availableStockProduct', [StockOutController::class, 'availableStockProduct'])->name('availableStockProduct');
+        Route::post('currentStock', [StockOutController::class, 'currentStock'])->name('currentStock');
     });
 
     //****************** purchase **********//
