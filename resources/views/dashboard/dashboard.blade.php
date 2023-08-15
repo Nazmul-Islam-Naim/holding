@@ -42,14 +42,30 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('projectShares.index')}}" target="_blank">
+				<a href="{{route('projects.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/share.gif')}}" alt="">
 						</div>
 						<div class="sale-details">
 							<h4>{{$shares}}</h4>
-							<p>Share</p>
+							<p>Total Share</p>
+						</div>
+						<div class="sale-graph">
+							<div id="sparklineLine5"></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+				<a href="{{route('projectShares.index')}}" target="_blank">
+					<div class="stats-tile">
+						<div class="sale-icon">
+							<img src="{{asset('custom/img/dashboard/share.gif')}}" alt="">
+						</div>
+						<div class="sale-details">
+							<h4>{{$projectShares}}</h4>
+							<p>Distrubuted Share</p>
 						</div>
 						<div class="sale-graph">
 							<div id="sparklineLine5"></div>

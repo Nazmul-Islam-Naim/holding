@@ -29,7 +29,8 @@ class HomeController extends Controller
     {
         $data['projects'] = Project::count();
         $data['sharholders'] = ShareHolder::count();
-        $data['shares'] = ProjectShare::sum('total_share');
+        $data['shares'] = Project::sum('total_share');
+        $data['projectShares'] = ProjectShare::sum('total_share');
         $data['products'] = Product::count();
         $data['stocks'] = Stock::sum('quantity');
         $data['shareBills'] = ProjectShare::sum('total_amount');
