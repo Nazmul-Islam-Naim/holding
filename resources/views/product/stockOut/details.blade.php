@@ -105,8 +105,8 @@
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->product->productBrand->title ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">
                           @php
-                              echo number_format($data->sum('quantity'), 2);
-                              $totalQuantity += $data->sum('quantity');
+                              echo number_format($data->quantity, 2);
+                              $totalQuantity += $data->quantity;
                           @endphp
                         </td>
                       </tr>
