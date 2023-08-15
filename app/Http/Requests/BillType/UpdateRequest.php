@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests\ProjectShare;
+namespace App\Http\Requests\BillType;
 
+use App\Models\BillType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CreateRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +24,7 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project_id' => ['required'],
-            'share_holder_id' => ['required'],
-            'total_share' => ['required', 'numeric'],
-            'date' => ['required', 'date_format:Y-m-d'],
+            'title' => ['required', Rule::unique(BillType::class)->ignore($this->billType)]
         ];
     }
-
 }

@@ -22,4 +22,8 @@ class ShareHolder extends Model
     public function billCollections(){
         return $this->hasMany(ProjectShareholder::class);
     }
+
+    public function billGenerates(){
+        return $this->hasMany(BillGenerate::class);
+    }
 }

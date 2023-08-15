@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\ProjectShare;
+namespace App\Http\Requests\BillGenerate;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,10 +23,10 @@ class CreateRequest extends FormRequest
     {
         return [
             'project_id' => ['required'],
-            'share_holder_id' => ['required'],
-            'total_share' => ['required', 'numeric'],
-            'date' => ['required', 'date_format:Y-m-d'],
+            'bill_type_id' => ['required'],
+            'amount' => ['required', 'numeric'],
+            'date' => ['date', 'date_format:Y-m-d'],
+            'note' => ['nullable'],
         ];
     }
-
 }

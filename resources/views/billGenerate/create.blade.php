@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'Share Collections')
+@section('title', 'Generate Bill')
 @section('content')
 <!-- Content wrapper scroll start -->
 <div class="content-wrapper-scroll">
@@ -15,43 +15,48 @@
     <div class="row gutters">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">
-          {!! Form::open(array('route' =>['shareCollections.store', $billGenerate->id],'method'=>'POST','files'=>true)) !!}
+          {!! Form::open(array('route' =>['billGenerates.store'],'method'=>'POST','files'=>true)) !!}
           <div class="card-header">
-            <div class="card-title">Share Collection</div>
+            <div class="card-title">Generate Bill</div>
           </div>
           
           <div class="card-body">
             <!-- Row start -->
             <div class="row gutters">
-              <!------------------- share details --------------------------->
-              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <span>
-                  Project Title: {{$billGenerate->project->title ?? ''}} ||
-                  Shareholer Name: {{$billGenerate->shareHolder->name ?? ''}} ||
-                  Shareholer Phone: {{$billGenerate->shareHolder->phone ?? ''}} ||
-                  Total Share: {{$billGenerate->shareHolder->share->total_share}} ||
-                  Bill Type: {{$billGenerate->billType->title ?? ''}} ||
-                  Total Amount: {{$billGenerate->bill}} ||
-                  Total Due: {{$billGenerate->due}}
-                  <input type="hidden" name="due" id="due" value="{{$billGenerate->due}}">
-                </span>
-              </div>
-              <!------------------- bank account --------------------------->
+              <!------------------- project --------------------------->
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <select 
-                  class="select-single select2 js-state @error('bank_account_id') is-invalid @enderror" 
+                  class="select-single select2 js-state @error('project_id') is-invalid @enderror" 
                   data-live-search="true" 
-                  name="bank_account_id" 
+                  name="project_id" 
                   required="">
                     <option value="">Select</option>
-                    @foreach($bankAccounts as $bankAccount)
-                    <option value="{{$bankAccount->id}}" {{($bankAccount->id == old('bank_account_id'))?'selected':''}}>
-                      {{$bankAccount->account_name}} => {{$bankAccount->account_number}}
+                    @foreach($projects as $project)
+                    <option value="{{$project->id}}" {{($project->id == old('project_id'))?'selected':''}}>
+                      {{$project->title}}
                     </option>
                     @endforeach
                   </select>
-                  <div class="field-placeholder">Transaction Method<span class="text-danger">*</span></div>
+                  <div class="field-placeholder">Project<span class="text-danger">*</span></div>
+                </div>
+              </div>
+              <!------------------- bill type --------------------------->
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="field-wrapper">
+                  <select 
+                  class="select-single select2 js-state @error('bill_type_id') is-invalid @enderror" 
+                  data-live-search="true" 
+                  name="bill_type_id" 
+                  required="">
+                    <option value="">Select</option>
+                    @foreach($billTypes as $billType)
+                    <option value="{{$billType->id}}" {{($billType->id == old('bill_type_id'))?'selected':''}}>
+                      {{$billType->title}}
+                    </option>
+                    @endforeach
+                  </select>
+                  <div class="field-placeholder">Bill Type<span class="text-danger">*</span></div>
                 </div>
               </div>
               <!------------------- amount --------------------------->
@@ -116,7 +121,7 @@
 <script>
 $(document).ready(function () {
 
-  $('#amount').keyup(function (e) { 
+  $('#due').keyup(function (e) { 
     var due = parseFloat($('#due').val());
     var amount = parseFloat($('#amount').val());
     if (amount > due) {

@@ -31,8 +31,8 @@
                         <th class="dt-wrap">Shareholder Name</th>
                         <th class="dt-wrap">Shareholder Phone</th>
                         <th class="dt-wrap">Total Share</th> 
-                        <th class="dt-wrap">Total Bill</th> 
-                        <th class="dt-wrap">Due</th> 
+                        <th class="dt-wrap">Bill Type</th> 
+                        <th class="dt-wrap">Collected Amount</th> 
                         <th class="dt-wrap">Action</th> 
                       </tr>
                     </thead>
@@ -92,14 +92,6 @@ function dateFormat(data) {
                 extend: 'excel',
                 exportOptions: {
                     columns: [ 0, 1, 2, 3, 4, 5, 6, 7],
-                    format: {
-                      body: function (data, row, column, node) {
-                        if (column) {
-                            return data.replace(/\n/ig, "<br/>");
-                        }
-                        // return column === 7 ? data.replace(/\n/ig, "<br/>") : data;
-                      }
-                    }
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -122,14 +114,6 @@ function dateFormat(data) {
                 },
                 exportOptions: {
                     columns: [ 0, 1, 2, 3, 4, 5, 6, 7],
-                    format: {
-                      body: function (data, row, column, node) {
-                        if (column) {
-                            return data.replace(/\n/ig, "<br/>");
-                        }
-                        // return column === 7 ? data.replace(/\n/ig, "<br/>") : data;
-                      }
-                    }
                 },
                 messageBottom: null
             }
@@ -176,9 +160,9 @@ function dateFormat(data) {
             }
           }
         },
-        {data: 'project_share.total_share'},
-        {data: 'project_share.total_amount'},
-        {data: 'project_share.due'},
+        {data: 'share_holder.share.total_share'},
+        {data: 'bill_type.title'},
+        {data: 'amount'},
         {data: 'action'},
       ]
     });

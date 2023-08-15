@@ -8,11 +8,9 @@ use App\Http\Requests\Filter\DateFilter;
 use App\Http\Requests\ShareCollection\CreateRequest;
 use App\Http\Requests\ShareCollection\UpdateRequest;
 use App\Models\BankAccount;
-use App\Models\Project;
+use App\Models\BillGenerate;
 use App\Models\ProjectShare;
 use App\Models\ProjectShareholder;
-use App\Models\ShareHolder;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
@@ -50,7 +48,7 @@ class ShareCollectionController extends Controller
     public function create($id)
     {
         $data['bankAccounts'] = BankAccount::select('id', 'account_name', 'account_number')->get();
-        $data['projectShare'] = ProjectShare::findOrFail($id);
+        $data['billGenerate'] = BillGenerate::findOrFail($id);
         return view('shareCollection.create', $data);
     }
 
@@ -60,17 +58,19 @@ class ShareCollectionController extends Controller
     public function store(CreateRequest $request, $id)
     {
         try {
-            $projectShare = ProjectShare::findOrFail($id);
-            $projectShare->decrement('due', $request->amount);
+            $billGenerate = BillGenerate::findOrFail($id);
+            $billGenerate->decrement('due', $request->amount);
+            $billGenerate->increment('collection', $request->amount);
 
-            $projectShare->shareHolder()->decrement('due', $request->amount);
-            $projectShare->shareHolder()->increment('collection', $request->amount);
+            $billGenerate->shareHolder()->decrement('due', $request->amount);
+            $billGenerate->shareHolder()->increment('collection', $request->amount);
 
             BankAccount::where('id', $request->bank_account_id)->increment('balance', $request->amount);
 
-            $shareCollection = $projectShare->bill()->create([
-                'project_id' => $projectShare->project_id,
-                'share_holder_id' => $projectShare->share_holder_id,
+            $shareCollection = $billGenerate->projectShareholders()->create([
+                'project_id' => $billGenerate->project_id,
+                'share_holder_id' => $billGenerate->share_holder_id,
+                'bill_type_id' => $billGenerate->bill_type_id,
                 'bank_account_id' => $request->bank_account_id,
                 'transaction_type' => TransactionType::getFromName('Receive'),
                 'amount' => $request->amount,
@@ -81,13 +81,13 @@ class ShareCollectionController extends Controller
             $shareCollection->transaction()->create([
                 'bank_account_id' => $request->bank_account_id,
                 'transaction_type' => TransactionType::getFromName('Receive'),
-                'reason' => 'Bill Collection (p: '. $projectShare->project->title. ' s/h: '. $projectShare->shareHolder->name. ', '. $projectShare->shareHolder->phone. ')',
+                'reason' => 'Bill Collection (p: '. $billGenerate->project->title. ' s/h: '. $billGenerate->shareHolder->name. ', '. $billGenerate->shareHolder->phone. ')',
                 'amount' => $request->amount,
                 'transaction_date' => $request->date,
                 'note' => $request->note,
             ]);
             Session::flash('flash_message','Data Successfully Added.');
-            return redirect()->route('shareCollections.index')->with('status_color','success');
+            return redirect()->route('billGenerates.index')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -122,7 +122,8 @@ class ShareCollectionController extends Controller
             $projectShareholder = ProjectShareholder::findOrFail($id);
 
             //reverse
-            $projectShareholder->projectShare()->increment('due', $projectShareholder->amount);
+            $projectShareholder->billGenerate()->increment('due', $projectShareholder->amount);
+            $projectShareholder->billGenerate()->decrement('collection', $projectShareholder->amount);
 
             $projectShareholder->shareHolder()->increment('due', $projectShareholder->amount);
             $projectShareholder->shareHolder()->decrement('collection', $projectShareholder->amount);
@@ -130,7 +131,8 @@ class ShareCollectionController extends Controller
             $projectShareholder->bankAccount()->decrement('balance', $projectShareholder->amount);
 
             //update
-            $projectShareholder->projectShare()->decrement('due', $request->amount);
+            $projectShareholder->billGenerate()->decrement('due', $request->amount);
+            $projectShareholder->billGenerate()->increment('collection', $request->amount);
 
             $projectShareholder->shareHolder()->decrement('due', $request->amount);
             $projectShareholder->shareHolder()->increment('collection', $request->amount);
@@ -161,9 +163,9 @@ class ShareCollectionController extends Controller
     {
         try{
             $projectShareholder = ProjectShareholder::findOrFail($id);
-
             //reverse
-            $projectShareholder->projectShare()->increment('due', $projectShareholder->amount);
+            $projectShareholder->billGenerate()->increment('due', $projectShareholder->amount);
+            $projectShareholder->billGenerate()->decrement('collection', $projectShareholder->amount);
 
             $projectShareholder->shareHolder()->increment('due', $projectShareholder->amount);
             $projectShareholder->shareHolder()->decrement('collection', $projectShareholder->amount);
@@ -202,7 +204,7 @@ class ShareCollectionController extends Controller
     public function amendment(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= ProjectShareholder::with(['projectShare', 'project', 'shareHolder'])
+            $alldata= ProjectShareholder::with(['billGenerate', 'project', 'shareHolder', 'shareHolder.share', 'billType'])
                     ->where('transaction_type', TransactionType::getFromName('Receive')->value)
                     ->get();
             return DataTables::of($alldata)

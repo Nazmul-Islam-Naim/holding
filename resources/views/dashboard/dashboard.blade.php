@@ -106,7 +106,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('projectShares.report')}}" target="_blank">
+				<a href="{{route('billGenerates.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/bill.gif')}}" alt="">
@@ -122,7 +122,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('projectShares.report')}}" target="_blank">
+				<a href="{{route('billGenerates.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/collection.gif')}}" alt="">
@@ -138,7 +138,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('projectShares.report')}}" target="_blank">
+				<a href="{{route('billGenerates.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/bill.gif')}}" alt="">

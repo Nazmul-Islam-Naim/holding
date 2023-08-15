@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\BillGenerate;
 use App\Models\Product;
 use App\Models\Project;
 use App\Models\ProjectShare;
@@ -33,8 +34,8 @@ class HomeController extends Controller
         $data['projectShares'] = ProjectShare::sum('total_share');
         $data['products'] = Product::count();
         $data['stocks'] = Stock::sum('quantity');
-        $data['shareBills'] = ProjectShare::sum('total_amount');
-        $data['shareDues'] = ProjectShare::sum('due');
+        $data['shareBills'] = BillGenerate::sum('bill');
+        $data['shareDues'] = BillGenerate::sum('due');
         $data['shareCollecitons'] = $data['shareBills'] - $data['shareDues'];
         return view('dashboard.dashboard',$data);
     }

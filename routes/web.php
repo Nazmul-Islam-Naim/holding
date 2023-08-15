@@ -14,6 +14,8 @@ use App\Http\Controllers\Product\ProductBrandController;
 use App\Http\Controllers\Product\ProductCategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductUnitController;
+use App\Http\Controllers\ProjectShare\BillGenerateController;
+use App\Http\Controllers\ProjectShare\BillTypeController;
 use App\Http\Controllers\Stock\StockController;
 use App\Http\Controllers\ProjectShare\ShareCollectionController;
 use App\Http\Controllers\Purchase\LocalPurchaseController;
@@ -125,10 +127,11 @@ Route::middleware('auth')->group(function () {
     //****************** share **********//
     Route::prefix(config('app.share'))->group(function () {
         Route::resource('projectShares', ProjectShareController::class);
-        Route::get('projectShare/report', [ProjectShareController::class, 'report'])->name('projectShares.report');
+        Route::resource('billTypes', BillTypeController::class);
+        Route::resource('billGenerates', BillGenerateController::class);
         
-        Route::get('shareCollections', [ShareCollectionController::class, 'index'])->name('shareCollections.index'); 
-        Route::get('shareCollections/create/{id}', [ShareCollectionController::class, 'create'])->name('shareCollections.create');
+        Route::get('shareCollections', [ShareCollectionController::class, 'index'])->name('shareCollections.index'); // un used
+        Route::get('shareCollections/create/{id}', [ShareCollectionController::class, 'create'])->name('shareCollections.create');// un used
         Route::post('shareCollections/store/{id}', [ShareCollectionController::class, 'store'])->name('shareCollections.store');
         Route::get('shareCollections/{id}/edit', [ShareCollectionController::class, 'edit'])->name('shareCollections.edit'); 
         Route::put('shareCollections/update/{id}', [ShareCollectionController::class, 'update'])->name('shareCollections.update'); 
@@ -173,3 +176,39 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+//Clear Cache facade value:
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    return '<h1>Cache facade value cleared</h1>';
+});
+//Reoptimized class loader:
+Route::get('/optimize', function() {
+    $exitCode = Artisan::call('optimize');
+    return '<h1>Reoptimized class loader</h1>';
+});
+//Route cache:
+Route::get('/route-cache', function() {
+    $exitCode = Artisan::call('route:cache');
+    return '<h1>Routes cached</h1>';
+});
+//Clear Route cache:
+Route::get('/route-clear', function() {
+    $exitCode = Artisan::call('route:clear');
+    return '<h1>Route cache cleared</h1>';
+});
+//Clear View cache:
+Route::get('/view-clear', function() {
+    $exitCode = Artisan::call('view:clear');
+    return '<h1>View cache cleared</h1>';
+});
+//Clear Config cache:
+Route::get('/config-cache', function() {
+    $exitCode = Artisan::call('config:cache');
+    return '<h1>Clear Config cleared</h1>';
+});
+
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+    return '<h1>Storage Created</h1>';
+});

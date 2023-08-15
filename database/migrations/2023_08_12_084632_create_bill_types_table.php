@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_shares', function (Blueprint $table) {
+        Schema::create('bill_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
-            $table->foreignId('share_holder_id')->constrained('share_holders')->onDelete('cascade');
-            $table->integer('total_share')->default(0);
-            $table->date('date');
+            $table->string('title')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_shares');
+        Schema::dropIfExists('bill_types');
     }
 };

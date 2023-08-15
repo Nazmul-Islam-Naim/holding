@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('project_shareholders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_share_id')->constrained('project_shares')->onDelete('cascade');
+            $table->foreignId('bill_generate_id')->constrained('bill_generates')->onDelete('cascade');
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->foreignId('share_holder_id')->constrained('share_holders')->onDelete('cascade');
+            $table->foreignId('bill_type_id')->constrained('bill_types')->onDelete('cascade');
             $table->foreignId('bank_account_id')->nullable()->constrained('bank_accounts')->onDelete('cascade');
             $table->tinyInteger('transaction_type')->comment('7 = bill, 5 = receive/collection');
             $table->decimal('amount', 15,2)->default(0);

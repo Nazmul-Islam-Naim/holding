@@ -11,12 +11,12 @@ class ProjectShareholder extends Model
     use HasFactory;
     protected $table = 'project_shareholders';
     protected $fillable = [
-        'project_share_id', 'project_id', 'share_holder_id', 'bank_account_id', 'transaction_type', 'amount', 'date', 'note'
+        'bill_generate_id', 'project_id', 'share_holder_id', 'bill_type_id', 'bank_account_id', 'transaction_type', 'amount', 'date', 'note'
     ];
 
     //relation
-    public function projectShare(){
-        return $this->belongsTo(ProjectShare::class);
+    public function billGenerate(){
+        return $this->belongsTo(BillGenerate::class);
     }
     
     public function project(){
@@ -25,6 +25,10 @@ class ProjectShareholder extends Model
 
     public function shareHolder(){
         return $this->belongsTo(ShareHolder::class);
+    }
+
+    public function billType(){
+        return $this->belongsTo(BillType::class);
     }
 
     public function bankAccount(){

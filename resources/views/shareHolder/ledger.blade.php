@@ -62,6 +62,7 @@ $sum = 0;
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Project Title</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Location</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Bank Account</th>
+                        <th style="border: 1px solid #ddd; padding: 3px 3px">Bill Type</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Bill</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Collection</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Balance</th>
@@ -75,6 +76,7 @@ $sum = 0;
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->project->title ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->project->location ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->bankAccount->account_name ?? ''}}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->billType->title ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px"> 
                           @php
                           if($data->transaction_type == TransactionType::getFromName('Bill')->value) {
@@ -98,7 +100,7 @@ $sum = 0;
                       @endforeach
                       @if($transactions->count()==0)
                       <tr>
-                        <td colspan="8" align="center">
+                        <td colspan="9" align="center">
                           <h4 style="color: #ccc">No Data Found . . .</h4>
                         </td>
                       </tr>
@@ -106,7 +108,7 @@ $sum = 0;
                     </tbody>
                     <tfoot> 
                       <tr> 
-                        <td colspan="5" style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><center><b>Total</b></center></td>
+                        <td colspan="6" style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><center><b>Total</b></center></td>
                         <td style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><b><?php echo number_format($bill, 2);?></b></td>
                         <td style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><b><?php echo number_format($collection, 2);?></b></td>
                         <td style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><b><?php echo number_format($sum, 2);?></b></td>

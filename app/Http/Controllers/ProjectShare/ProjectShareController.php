@@ -61,29 +61,13 @@ class ProjectShareController extends Controller
         try {
             $project = Project::findOrFail($request->project_id);
             if ($project->total_share > ($project->shares()->sum('total_share') + $request->total_share)) {
-                $projectShare = ProjectShare::updateOrCreate(
+                ProjectShare::updateOrCreate(
                     [
                         'project_id' => $request->project_id,
                         'share_holder_id' => $request->share_holder_id,
                     ],
                     $request->all()
                 );
-
-                $projectShare->shareHolder()->increment('bill', $request->total_amount);
-                $projectShare->shareHolder()->increment('due', $request->total_amount);
-
-                $projectShare->bill()->updateOrCreate(
-                    [
-                        'project_share_id' => $projectShare->id
-                    ],
-                    [
-                        'project_id' => $request->project_id,
-                        'share_holder_id' => $request->share_holder_id,
-                        'transaction_type' => TransactionType::getFromName('Bill'),
-                        'amount' => $request->total_amount,
-                        'date' => $request->date
-                    ]
-                    );
                 Session::flash('flash_message','Data Successfully Added.');
                 return redirect()->route('projectShares.index')->with('status_color','success');
             } else {
@@ -125,25 +109,7 @@ class ProjectShareController extends Controller
             $projectShare = ProjectShare::findOrFail($id);
             $project = Project::findOrFail($projectShare->project_id);
             if ($project->total_share > ($project->shares()->sum('total_share') + $request->total_share)) {
-                
-                $projectShare->shareHolder()->decrement('bill', $projectShare->total_amount);
-                $projectShare->shareHolder()->decrement('due', $projectShare->total_amount);
-
-                $projectShare->shareHolder()->increment('bill', $request->total_amount);
-                $projectShare->shareHolder()->increment('due', $request->total_amount);
-                
                 $projectShare->update($inpuntdata);
-
-                $projectShare->bill()->updateOrCreate(
-                    [
-                        'project_share_id' => $projectShare->id
-                    ],
-                    [
-                        'share_holder_id' => $request->share_holder_id,
-                        'amount' => $request->total_amount,
-                        'date' => $request->date
-                    ]
-                    );
                 Session::flash('flash_message','Data Successfully Added.');
                 return redirect()->route('projectShares.index')->with('status_color','success');
             } else {
@@ -164,8 +130,6 @@ class ProjectShareController extends Controller
     {
         try{
             $projectShare = ProjectShare::findOrFail($id);
-            $projectShare->shareHolder()->decrement('bill', $projectShare->total_amount);
-            $projectShare->shareHolder()->decrement('due', $projectShare->total_amount);
             $projectShare->delete();
             Session::flash('flash_message','Data Successfully Deleted !');
             return redirect()->route('projectShares.index')->with('status_color','success');
@@ -173,20 +137,6 @@ class ProjectShareController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
-    }
-
-    /**
-     * Desplay all share
-     */
-    public function report(Request $request)
-    {
-        if ($request->ajax()) {
-            $alldata= ProjectShare::with(['project', 'shareHolder'])->get();
-            return DataTables::of($alldata)
-            ->addIndexColumn()
-            ->make(True);
-        }
-        return view('projectShare.report');
     }
 
 }

@@ -24,15 +24,7 @@ class UpdateRequest extends FormRequest
         return [
             'share_holder_id' => ['required'],
             'total_share' => ['required', 'numeric'],
-            'share_amount' => ['required', 'numeric'],
             'date' => ['required', 'date_format:Y-m-d'],
         ];
-    }
-    
-    public function prepareForValidation(){
-        return $this->merge([
-            'total_amount' => $this->total_share * $this->share_amount,
-            'due' => $this->total_share * $this->share_amount
-        ]);
     }
 }

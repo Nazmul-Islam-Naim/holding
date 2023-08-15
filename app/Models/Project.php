@@ -30,4 +30,8 @@ class Project extends Model
     public function stockOuts(){
         return $this->hasMany(StockOut::class);
     }
+
+    public function billGenerates(){
+        return $this->hasMany(BillGenerate::class);
+    }
 }

@@ -210,8 +210,8 @@
                                 <!-------------- share module part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit')) ||
-                                    $url==config('app.share').'/projectShare/report' ||
-                                    $url==config('app.share').'/shareCollections' || $url==config('app.share').'/shareCollections/create' ||
+                                    $url==config('app.share').'/billTypes' || $url==config('app.share').'/billTypes/create' || $url==(request()->is(config('app.share').'/billTypes/*/edit')) ||
+                                    $url==config('app.share').'/billGenerates' || $url==config('app.share').'/billGenerates/create' || $url==(request()->is(config('app.share').'/billGenerates/*/edit')) ||
                                     $url==config('app.share').'/shareCollections/report') ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-call_split"></i>
@@ -223,10 +223,10 @@
                                                 <a href="{{$baseUrl.'/'.config('app.share').'/projectShares'}}" class="{{($url==config('app.share').'/projectShares' || $url==config('app.share').'/projectShares/create' || $url==(request()->is(config('app.share').'/projectShares/*/edit'))) ? 'current-page':''}}">Share Distribution</a>
                                             </li>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.share').'/projectShare/report'}}" class="{{($url==config('app.share').'/projectShare/report') ? 'current-page':''}}">Share Report</a>
+                                                <a href="{{$baseUrl.'/'.config('app.share').'/billTypes'}}" class="{{($url==config('app.share').'/billTypes' || $url==config('app.share').'/billTypes/create' || $url==(request()->is(config('app.share').'/billTypes/*/edit'))) ? 'current-page':''}}">Bill Type</a>
                                             </li>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.share').'/shareCollections'}}" class="{{($url==config('app.share').'/shareCollections' || $url==config('app.share').'/shareCollections/create') ? 'current-page':''}}">Share Collection</a>
+                                                <a href="{{$baseUrl.'/'.config('app.share').'/billGenerates'}}" class="{{($url==config('app.share').'/billGenerates' || $url==config('app.share').'/billGenerates/create' || $url==(request()->is(config('app.share').'/billGenerates/*/edit'))) ? 'current-page':''}}">Bill Generate</a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.share').'/shareCollections/report'}}" class="{{($url==config('app.share').'/shareCollections/report') ? 'current-page':''}}">Share Collection Report</a>

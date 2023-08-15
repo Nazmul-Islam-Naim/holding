@@ -29,10 +29,11 @@
                   Project Title: {{$projectShareholder->project->title ?? ''}} ||
                   Shareholer Name: {{$projectShareholder->shareHolder->name ?? ''}} ||
                   Shareholer Phone: {{$projectShareholder->shareHolder->phone ?? ''}} ||
-                  Total Share: {{$projectShareholder->projectShare->total_share}} ||
-                  Total Amount: {{$projectShareholder->projectShare->total_amount}} ||
-                  Total Due: {{$projectShareholder->projectShare->due}}
-                  <input type="hidden" name="due" id="due" value="{{$projectShareholder->projectShare->due}}">
+                  Total Share: {{$projectShareholder->shareholder->share->total_share ?? ''}} ||
+                  Bill Type: {{$projectShareholder->billType->title ?? ''}} ||
+                  Total Amount: {{$projectShareholder->billGenerate->bill ?? ''}} ||
+                  Total Due: {{$projectShareholder->billGenerate->due ?? ''}}
+                  <input type="hidden" name="due" id="due" value="{{$projectShareholder->billGenerate->due}}">
                 </span>
               </div>
               <!------------------- bank account --------------------------->
@@ -115,7 +116,7 @@
 <script>
 $(document).ready(function () {
 
-  $('#due').keyup(function (e) { 
+  $('#amount').keyup(function (e) { 
     var due = parseFloat($('#due').val());
     var amount = parseFloat($('#amount').val());
     if (amount > due) {

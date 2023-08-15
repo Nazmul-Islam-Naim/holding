@@ -64,38 +64,6 @@
                   <div class="field-placeholder">Total Share<span class="text-danger">*</span></div>
                 </div>
               </div>
-              <!------------------- share amount --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                <div class="field-wrapper">
-                  <input 
-                  type="number"
-                  step="any"
-                  name="share_amount" 
-                  id="share_amount" 
-                  class="@error('share_amount') is-invalid @enderror" 
-                  value="{{$projectShare->share_amount ?? old('share_amount')}}" 
-                  autocomplete="off"
-                  placeholder="100000"
-                  required>
-                  <div class="field-placeholder">Share Amount<span class="text-danger">*</span></div>
-                </div>
-              </div>
-              <!------------------- share amount --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                <div class="field-wrapper">
-                  <input 
-                  type="number"
-                  step="any"
-                  name="total_amount" 
-                  id="total_amount" 
-                  class="@error('total_amount') is-invalid @enderror" 
-                  value="{{$projectShare->total_amount ?? old('total_amount')}}" 
-                  autocomplete="off"
-                  placeholder="0"
-                  readonly>
-                  <div class="field-placeholder">Total Amount</div>
-                </div>
-              </div>
               <!------------------- date --------------------------->
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">

@@ -69,6 +69,7 @@
                       <tr style="background: #ccc; color: #000"> 
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Sl</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Tnx Date</th>
+                        <th style="border: 1px solid #ddd; padding: 3px 3px">Bill Type</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Project Title</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Shareholder Name</th>
                         <th style="border: 1px solid #ddd; padding: 3px 3px">Shareholder Phone</th>
@@ -82,6 +83,7 @@
                       <tr> 
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$key+1}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{ Carbon\Carbon::parse($data->date)->format('d-m-Y') }}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->billType->title ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->project->title ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->shareHolder->name ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->shareHolder->phone ?? ''}}</td>
@@ -92,7 +94,7 @@
                       @endforeach
                       @if($projectShareholders->count()==0)
                       <tr>
-                        <td colspan="8" align="center">
+                        <td colspan="9" align="center">
                           <h4 style="color: #ccc">No Data Found . . .</h4>
                         </td>
                       </tr>
@@ -100,7 +102,7 @@
                     </tbody>
                     <tfoot> 
                       <tr> 
-                        <td colspan="7" style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><center><b>Total</b></center></td>
+                        <td colspan="8" style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><center><b>Total</b></center></td>
                         <td style="font-weight: bold; border: 1px solid #ddd; padding: 3px 3px"><b>{{number_format($projectShareholders->sum('amount'), 2)}}</b></td>
                       </tr>
                     </tfoot>
