@@ -63,25 +63,49 @@ class BillGenerateController extends Controller
         try {
             $project = Project::findOrFail($request->project_id);
             foreach($project->shares as $share){
-                $bill = BillGenerate::create([
-                    'project_id' => $share->project_id,
-                    'share_holder_id' => $share->share_holder_id,
-                    'bill_type_id' => $request->bill_type_id,
-                    'bill' => $share->total_share * $request->amount,
-                    'due' => $share->total_share * $request->amount,
-                    'date' => $share->date,
-                    'note' => $share->note,
-                ]);
 
-                $bill->projectShareholders()->create([
-                    'project_id' => $bill->project_id,
-                    'share_holder_id' => $bill->share_holder_id,
-                    'bill_type_id' => $bill->bill_type_id,
-                    'transaction_type' => TransactionType::getFromName('Bill'),
-                    'amount' => $share->total_share * $request->amount,
-                    'date' => $share->date,
-                    'note' => $share->note,
-                ]);
+                $isAvailable = BillGenerate::where('project_id', $share->project_id)
+                            ->where('share_holder_id', $share->share_holder_id)
+                            ->where('bill_type_id', $request->bill_type_id)
+                            ->first();
+
+                if (!empty($isAvailable)) {
+                    $share->shareHolder()->decrement('bill', $isAvailable->bill);
+                    $share->shareHolder()->decrement('due', $isAvailable->bill);
+                }
+
+
+                $bill = BillGenerate::updateOrCreate(
+                    [
+                        'project_id' => $share->project_id,
+                        'share_holder_id' => $share->share_holder_id,
+                        'bill_type_id' => $request->bill_type_id
+                    ],
+                    [
+                        'project_id' => $share->project_id,
+                        'share_holder_id' => $share->share_holder_id,
+                        'bill_type_id' => $request->bill_type_id,
+                        'bill' => $share->total_share * $request->amount,
+                        'due' => $share->total_share * $request->amount,
+                        'date' => $share->date,
+                        'note' => $share->note,
+                    ]
+                );
+
+                $bill->projectShareholders()->updateOrCreate(
+                    [
+                        'bill_generate_id' => $bill->id
+                    ],
+                    [
+                        'project_id' => $bill->project_id,
+                        'share_holder_id' => $bill->share_holder_id,
+                        'bill_type_id' => $bill->bill_type_id,
+                        'transaction_type' => TransactionType::getFromName('Bill'),
+                        'amount' => $share->total_share * $request->amount,
+                        'date' => $share->date,
+                        'note' => $share->note,
+                    ]
+                );
 
                 $share->shareHolder()->increment('bill', $share->total_share * $request->amount);
                 $share->shareHolder()->increment('due', $share->total_share * $request->amount);
