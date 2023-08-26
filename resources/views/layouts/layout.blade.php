@@ -179,7 +179,8 @@
                                 </li>
                                 <!-------------- project module part ------------>
                                 <li class="default-sidebar-dropdown {{(
-                                    $url==config('app.project').'/projects' || $url==config('app.project').'/projects/create' || $url==(request()->is(config('app.project').'/projects/*/edit'))) ? 'active':''}}">
+                                    $url==config('app.project').'/projects' || $url==config('app.project').'/projects/create' || $url==(request()->is(config('app.project').'/projects/*/edit')) ||
+                                    $url==config('app.project').'/projectLandPayments' || $url==(request()->is(config('app.project').'/projectLandPayments/create/*'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-layers2"></i>
                                         <span class="menu-text">Project Managment</span>
@@ -188,6 +189,9 @@
                                         <ul>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.project').'/projects'}}" class="{{($url==config('app.project').'/projects' || $url==config('app.project').'/projects/create' || $url==(request()->is(config('app.project').'/projects/*/edit'))) ? 'current-page':''}}">Project</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.project').'/projectLandPayments'}}" class="{{($url==config('app.project').'/projectLandPayments' || $url==(request()->is(config('app.project').'/projectLandPayments/create/*'))) ? 'current-page':''}}">Land Payment</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -321,6 +325,7 @@
                                 </li>
                                 <!-------------- amendment module part ------------>
                                 <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.project').'/projectLandPayments/amendment' || $url==(request()->is(config('app.project').'/projectLandPayments/*/edit')) ||
                                     $url==config('app.share').'/shareCollections/amendment' ||  $url==(request()->is(config('app.share').'/shareCollections/*/edit')) ||
                                     $url==config('app.purchase').'/localPurchaseList/amendment' || $url==(request()->is(config('app.purchase').'/localPurchaseList/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
@@ -329,6 +334,9 @@
                                     </a>
                                     <div class="default-sidebar-submenu">
                                         <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.project').'/projectLandPayments/amendment'}}" class="{{($url==config('app.project').'/projectLandPayments/amendment' || $url==(request()->is(config('app.project').'/projectLandPayments/*/edit'))) ? 'current-page':''}}">Land Payment</a>
+                                            </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.share').'/shareCollections/amendment'}}" class="{{($url==config('app.share').'/shareCollections/amendment' || $url==(request()->is(config('app.share').'/shareCollections/*/edit'))) ? 'current-page':''}}">Share Collection</a>
                                             </li>

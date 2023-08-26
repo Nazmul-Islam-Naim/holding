@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Project;
 
+use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -23,11 +25,15 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255', Rule::unique(Project::class)->ignore($this->project)],
             'location' => ['nullable', 'string', 'max:255'],
+            'land_owner' => ['required', 'string', 'max:255'],
+            'land_amount' => ['required', 'string', 'max:255'],
+            'land_cost' => ['required', 'numeric'],
             'description' => ['nullable'],
             'total_share' => ['required', 'numeric'],
             'avatar' => ['nullable', 'image'],
+            'document' => ['nullable', 'mimes:pdf,image'],
         ];
     }
 

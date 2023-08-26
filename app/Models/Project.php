@@ -11,7 +11,7 @@ class Project extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'projects';
     protected $fillable = [
-        'title', 'slug', 'location', 'description', 'total_share', 'avatar', 'status'
+        'title', 'slug', 'location', 'land_owner', 'land_amount', 'land_cost', 'description', 'total_share', 'avatar', 'document', 'status'
     ];
 
     //relation
@@ -33,5 +33,9 @@ class Project extends Model
 
     public function billGenerates(){
         return $this->hasMany(BillGenerate::class);
+    }
+
+    public function projectLandPayment(){
+        return $this->hasMany(ProjectLandPayment::class);
     }
 }

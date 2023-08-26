@@ -20,6 +20,11 @@ trait FileUploadTrait
             $data['nid'] = (Arr::pull($data, 'nid'))->store($folder);
         }
 
+        if(Arr::has($data, 'document')){
+            $data['document'] = (Arr::pull($data, 'document'));
+            $data['document'] = (Arr::pull($data, 'document'))->store($folder);
+        }
+
         return $data;
     }
 
@@ -46,6 +51,16 @@ trait FileUploadTrait
             $data['nid'] = (Arr::pull($data, 'nid'))->store($folder);
         }
 
+        if(Arr::has($data, 'document')){
+
+            if (Storage::exists($object->document)) {
+                Storage::delete($object->document);
+            }
+
+            $data['document'] = (Arr::pull($data, 'document'));
+            $data['document'] = (Arr::pull($data, 'document'))->store($folder);
+        }
+
         return $data;
            
     }
@@ -61,6 +76,12 @@ trait FileUploadTrait
 
             if (Storage::exists($object->nid)) {
                 Storage::delete($object->nid);
+            }
+        }
+        if(Arr::has($object, 'document')){
+
+            if (Storage::exists($object->document)) {
+                Storage::delete($object->document);
             }
         }
     }

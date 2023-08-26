@@ -37,6 +37,49 @@
                   <div class="field-placeholder">Title <span class="text-danger">*</span></div>
                 </div>
               </div>
+              <!------------------- land owner --------------------------->
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="field-wrapper">
+                  <input 
+                  type="text" 
+                  name="land_owner" 
+                  class="@error('land_owner') is-invalid @enderror" 
+                  value="{{old('land_owner')}}" 
+                  autocomplete="off"
+                  placeholder="land owner name."
+                  required>
+                  <div class="field-placeholder">Land Owner <span class="text-danger">*</span></div>
+                </div>
+              </div>
+              <!------------------- land amount --------------------------->
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="field-wrapper">
+                  <input 
+                  type="text" 
+                  name="land_amount" 
+                  class="@error('land_amount') is-invalid @enderror" 
+                  value="{{old('land_amount')}}" 
+                  autocomplete="off"
+                  placeholder="1.5 acore."
+                  required>
+                  <div class="field-placeholder">Land Amount <span class="text-danger">*</span></div>
+                </div>
+              </div>
+              <!------------------- land cost --------------------------->
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="field-wrapper">
+                  <input 
+                  type="number" 
+                  step="any"
+                  name="land_cost" 
+                  class="@error('land_cost') is-invalid @enderror" 
+                  value="{{old('land_cost')}}" 
+                  autocomplete="off"
+                  placeholder="50000000"
+                  required>
+                  <div class="field-placeholder">Land Cost <span class="text-danger">*</span></div>
+                </div>
+              </div>
               <!------------------- share --------------------------->
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="field-wrapper">
@@ -80,8 +123,8 @@
                   <div class="field-placeholder">Description</div>
                 </div>
               </div>
-              <!------------------- avatarr --------------------------->
-              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <!------------------- avatar --------------------------->
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <input 
                   type="file" 
@@ -90,6 +133,18 @@
                   value="{{old('avatar')}}"
                   >
                   <div class="field-placeholder">Avatar</div>
+                </div>
+              </div>
+              <!------------------- document --------------------------->
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="field-wrapper">
+                  <input 
+                  type="file" 
+                  name="document" 
+                  class="@error('document') is-invalid @enderror" 
+                  value="{{old('document')}}"
+                  >
+                  <div class="field-placeholder">Document</div>
                 </div>
               </div>
             </div>

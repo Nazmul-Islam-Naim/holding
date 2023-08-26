@@ -41,4 +41,8 @@ class BankAccount extends Model
     public function shareCollectios(){
         return $this->hasMany(ProjectShareholder::class);
     }
+
+    public function projectLandPayment(){
+        return $this->hasMany(ProjectLandPayment::class);
+    }
 }
