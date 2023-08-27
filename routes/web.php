@@ -124,8 +124,8 @@ Route::middleware('auth')->group(function () {
         Route::get('projectLandPayments/{id}/edit', [ProjectLandPaymentController::class, 'edit'])->name('projectLandPayments.edit'); 
         Route::put('projectLandPayments/update/{id}', [ProjectLandPaymentController::class, 'update'])->name('projectLandPayments.update'); 
         Route::delete('projectLandPayments/destroy/{id}', [ProjectLandPaymentController::class, 'destroy'])->name('projectLandPayments.destroy'); 
-        Route::get('projectLandPayments/report', [ProjectLandPaymentController::class, 'report'])->name('projectLandPayments.report'); // not functional
-        Route::get('projectLandPayments/amendment', [ProjectLandPaymentController::class, 'amendment'])->name('projectLandPayments.amendment'); // not functional
+        Route::get('projectLandPayments/report', [ProjectLandPaymentController::class, 'report'])->name('projectLandPayments.report'); 
+        Route::get('projectLandPayments/amendment', [ProjectLandPaymentController::class, 'amendment'])->name('projectLandPayments.amendment');
     });
 
     //****************** shareholder **********//

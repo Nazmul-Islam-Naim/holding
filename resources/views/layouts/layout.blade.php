@@ -180,7 +180,8 @@
                                 <!-------------- project module part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.project').'/projects' || $url==config('app.project').'/projects/create' || $url==(request()->is(config('app.project').'/projects/*/edit')) ||
-                                    $url==config('app.project').'/projectLandPayments' || $url==(request()->is(config('app.project').'/projectLandPayments/create/*'))) ? 'active':''}}">
+                                    $url==config('app.project').'/projectLandPayments' || $url==(request()->is(config('app.project').'/projectLandPayments/create/*')) ||
+                                    $url==config('app.project').'/projectLandPayments/report') ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-layers2"></i>
                                         <span class="menu-text">Project Managment</span>
@@ -192,6 +193,9 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.project').'/projectLandPayments'}}" class="{{($url==config('app.project').'/projectLandPayments' || $url==(request()->is(config('app.project').'/projectLandPayments/create/*'))) ? 'current-page':''}}">Land Payment</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.project').'/projectLandPayments/report'}}" class="{{($url==config('app.project').'/projectLandPayments/report') ? 'current-page':''}}">Land Payment Report</a>
                                             </li>
                                         </ul>
                                     </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Project;
 use App\Enum\ProjectStatus;
 use App\Enum\TransactionType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Filter\DateFilter;
+use App\Http\Requests\Filter\ProjectDateFilter;
 use App\Http\Requests\ProjectLandPayment\CreateRequest;
 use App\Http\Requests\ProjectLandPayment\UpdateRequest;
 use App\Models\BankAccount;
@@ -153,6 +155,31 @@ class ProjectLandPaymentController extends Controller
         }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function report(ProjectDateFilter $request)
+    {
+        $data['projects'] = Project::select('id', 'title', 'land_owner')->get();
+        if ($request->start_date != '' && $request->end_date != '' && $request->project_id != '') {
+            $data['projectLandPayments'] = ProjectLandPayment::where('project_id', $request->project_id)
+                                ->whereBetween('date', [$request->start_date, $request->end_date])
+                                ->paginate(250);
+            return view('projectLandPayment.report', $data);
+        } elseif ($request->start_date != '' && $request->end_date != '' && $request->project_id == '') {
+            $data['projectLandPayments'] = ProjectLandPayment::whereBetween('date', [$request->start_date, $request->end_date])
+                                ->paginate(250);
+            return view('projectLandPayment.report', $data);
+        } elseif ($request->start_date == '' && $request->end_date == '' && $request->project_id != '') {
+            $data['projectLandPayments'] = ProjectLandPayment::where('project_id', $request->project_id)
+                                ->paginate(250);
+            return view('projectLandPayment.report', $data);
+        } else {
+            $data['projectLandPayments'] = ProjectLandPayment::paginate(250);
+            return view('projectLandPayment.report', $data);
         }
     }
 
