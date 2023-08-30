@@ -30,11 +30,12 @@ trait FileUploadTrait
 
     public function updateFile($object, $data, $folder){
 
-
         if(Arr::has($data, 'avatar')){
-            
-            if (Storage::exists($object->avatar)) {
-                Storage::delete($object->avatar);
+
+            if (($object->avatar != null) || ($object->avatar != '')) {
+                if (Storage::exists($object->avatar)) {
+                    Storage::delete($object->avatar);
+                }
             }
 
             $data['avatar'] = (Arr::pull($data, 'avatar'));
@@ -43,9 +44,12 @@ trait FileUploadTrait
 
         if(Arr::has($data, 'nid')){
 
-            if (Storage::exists($object->nid)) {
-                Storage::delete($object->nid);
+            if (($object->nid != null) || ($object->nid != '')) {
+                if (Storage::exists($object->nid)) {
+                    Storage::delete($object->nid);
+                }
             }
+
 
             $data['nid'] = (Arr::pull($data, 'nid'));
             $data['nid'] = (Arr::pull($data, 'nid'))->store($folder);
@@ -53,8 +57,10 @@ trait FileUploadTrait
 
         if(Arr::has($data, 'document')){
 
-            if (Storage::exists($object->document)) {
-                Storage::delete($object->document);
+            if (($object->document != null) || ($object->document != '')) {
+                if (Storage::exists($object->document)) {
+                    Storage::delete($object->document);
+                }
             }
 
             $data['document'] = (Arr::pull($data, 'document'));
