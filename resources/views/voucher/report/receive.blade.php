@@ -83,7 +83,9 @@
                       <tr> 
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$key+1}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{ Carbon\Carbon::parse($data->date)->format('d-m-Y') }}</td>
-                        <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->voucher->code ?? ''}}</td>
+                        <td style="border: 1px solid #ddd; padding: 3px 3px">
+                          <a href="{{route('voucherTransaction.show', $data->voucher_id)}}">{{$data->voucher->code ?? ''}}</a>
+                        </td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->voucher->type->title ?? ''}}</td>
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->voucher->subType->title ?? ''}}</td> 
                         <td style="border: 1px solid #ddd; padding: 3px 3px">{{$data->voucher->bearer ?? ''}}</td>

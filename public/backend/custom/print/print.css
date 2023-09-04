@@ -1,3 +1,38 @@
 .dt-center{
     text-align: center;
 }
+
+
+@media print {
+    /* Hide the logo in print mode */
+    .invoice-logo {
+        display: none;
+    }
+
+    /* Adjust address alignment */
+    .invoice-header .col-xl-5 {
+        text-align: right;
+    }
+
+    /* Increase font size for better readability */
+    .invoice-container {
+        font-size: 14px;
+    }
+
+    /* Adjust table styles for printing */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        border: 1px solid #000;
+        padding: 5px;
+        text-align: left;
+    }
+
+    /* Hide buttons in print mode */
+    .invoice-container .btn {
+        display: none;
+    }
+  }

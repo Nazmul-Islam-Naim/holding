@@ -116,7 +116,8 @@ class VoucherTransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $data['voucher'] = Voucher::findOrFail($id);
+        return view('voucher.report.invoice', $data);
     }
 
     /**

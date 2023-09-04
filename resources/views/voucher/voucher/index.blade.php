@@ -153,6 +153,15 @@
         },
         {
           data: 'code',
+          render:function(data, type, row){
+            if(data != ''){
+            var url = '{{route("voucherTransaction.show",":id")}}'; 
+            var url = url.replace(':id', row.id);
+						return '<a href=' + url +'>'+ data +'</a>';
+            }else{
+              return '';
+            }
+          }
         },
         {
           data: 'voucher_type',

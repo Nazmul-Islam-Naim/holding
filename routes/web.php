@@ -106,6 +106,7 @@ Route::middleware('auth')->group(function () {
         Route::get('transactions', [VoucherTransactionController::class, 'index'])->name('voucherTransaction.index'); //un used
         Route::get('transactions/create/{id}', [VoucherTransactionController::class, 'create'])->name('voucherTransaction.create');
         Route::post('transactions/store/{id}', [VoucherTransactionController::class, 'store'])->name('voucherTransaction.store');
+        Route::get('transactions/show/{id}', [VoucherTransactionController::class, 'show'])->name('voucherTransaction.show');
         Route::get('transactions/{id}/edit', [VoucherTransactionController::class, 'edit'])->name('voucherTransaction.edit'); //un used
         Route::put('transactions/update/{id}', [VoucherTransactionController::class, 'update'])->name('voucherTransaction.update'); //un used
         Route::delete('transactions/destroy/{id}', [VoucherTransactionController::class, 'destroy'])->name('voucherTransaction.destroy'); //un used
