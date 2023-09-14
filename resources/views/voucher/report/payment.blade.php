@@ -31,7 +31,7 @@
                       <div class="col-md-3">
                         <div class="field-wrapper">
                           <div class="input-group">
-                            <input class="form-control" type="date" name="start_date" value="{{date('Y-m-d')}}" autocomplete="off">
+                            <input class="form-control" type="date" name="start_date" value="" autocomplete="off">
                           </div>
                           <div class="field-placeholder">From </div>
                         </div>
@@ -39,11 +39,43 @@
                       <div class="col-md-3">
                         <div class="field-wrapper">
                           <div class="input-group">
-                            <input class="form-control" type="date" name="end_date" value="{{date('Y-m-d')}}" autocomplete="off">
+                            <input class="form-control" type="date" name="end_date" value="" autocomplete="off">
                           </div>
                           <div class="field-placeholder">To </div>
                         </div>
                       </div>
+                        <div class="col-md-3">
+                          <div class="field-wrapper">
+                            <div class="input-group">
+                              <select 
+                              class="select-single select2 js-state @error('type_id') is-invalid @enderror" 
+                              data-live-search="true" 
+                              name="type_id" 
+                              id="type_id" 
+                              >
+                                <option value="">Select</option>
+                                @foreach($types as $type)
+                                <option value="{{$type->id}}" {{($type->id == old('type_id'))?'selected':''}}>{{$type->title}}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                            <div class="field-placeholder">Type </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="field-wrapper">
+                            <div class="input-group">
+                              <select 
+                              class="select-single select2 js-state @error('sub_type_id') is-invalid @enderror" 
+                              data-live-search="true" 
+                              name="sub_type_id" 
+                              id="sub_type_id" 
+                              >
+                              </select>
+                            </div>
+                            <div class="field-placeholder">Sub Type </div>
+                          </div>
+                        </div>
                       <div class="col-md-3">
                         <div class="field-wrapper">
                           <div class="input-group">

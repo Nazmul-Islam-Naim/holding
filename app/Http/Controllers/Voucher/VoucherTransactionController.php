@@ -9,6 +9,7 @@ use App\Http\Requests\Filter\DateFilter;
 use App\Http\Requests\VoucherTransaction\CreateRequest;
 use App\Http\Requests\VoucherTransaction\UpdateRequest;
 use App\Models\BankAccount;
+use App\Models\SubType;
 use App\Models\Type;
 use App\Models\Voucher;
 use App\Models\VoucherTransaction;
@@ -216,14 +217,48 @@ class VoucherTransactionController extends Controller
      * voucher_type = Rececive
      */
     public function receiveReport(DateFilter $request){
-        if ($request->start_date != '' && $request->end_date != '') {
+        if ($request->start_date != '' && $request->end_date != '' && $request->type_id != '' && $request->sub_type_id != '') {
+            $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Receive->toString())
+                                        ->whereBetween('date', [$request->start_date, $request->end_date])
+                                        ->whereHas('voucher', function($query) use($request) {
+                                            $query->where('type_id', $request->type_id)
+                                                ->where('sub_type_id', $request->sub_type_id);
+                                        })
+                                        ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
+            return view('voucher.report.receive', $data);
+        } elseif($request->start_date == '' && $request->end_date == '' && $request->type_id != '' && $request->sub_type_id != '') {
+            $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Receive->toString())
+                                        ->whereHas('voucher', function($query) use($request) {
+                                            $query->where('type_id', $request->type_id)
+                                                ->where('sub_type_id', $request->sub_type_id);
+                                        })
+                                        ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
+            return view('voucher.report.receive', $data);
+        } elseif($request->start_date == '' && $request->end_date == '' && $request->type_id != '' && $request->sub_type_id == '') {
+            $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Receive->toString())
+                                        ->whereHas('voucher', function($query) use($request) {
+                                            $query->where('type_id', $request->type_id);
+                                        })
+                                        ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
+            return view('voucher.report.receive', $data);
+        } elseif($request->start_date != '' && $request->end_date != '' && $request->type_id == '' && $request->sub_type_id == '') {
             $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Receive->toString())
                                         ->whereBetween('date', [$request->start_date, $request->end_date])
                                         ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
             return view('voucher.report.receive', $data);
         } else {
             $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Receive->toString())
                                         ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
             return view('voucher.report.receive', $data);
         }
     }
@@ -234,14 +269,48 @@ class VoucherTransactionController extends Controller
      * voucher_type = Payment
      */
     public function paymentReport(DateFilter $request){
-        if ($request->start_date != '' && $request->end_date != '') {
+        if ($request->start_date != '' && $request->end_date != '' && $request->type_id != '' && $request->sub_type_id != '') {
+            $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Payment->toString())
+                                        ->whereBetween('date', [$request->start_date, $request->end_date])
+                                        ->whereHas('voucher', function($query) use($request) {
+                                            $query->where('type_id', $request->type_id)
+                                                ->where('sub_type_id', $request->sub_type_id);
+                                        })
+                                        ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
+            return view('voucher.report.payment', $data);
+        } elseif ($request->start_date == '' && $request->end_date == '' && $request->type_id != '' && $request->sub_type_id != '') {
+            $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Payment->toString())
+                                        ->whereHas('voucher', function($query) use($request) {
+                                            $query->where('type_id', $request->type_id)
+                                                ->where('sub_type_id', $request->sub_type_id);
+                                        })
+                                        ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
+            return view('voucher.report.payment', $data);
+        } elseif ($request->start_date == '' && $request->end_date == '' && $request->type_id != '' && $request->sub_type_id == '') {
+            $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Payment->toString())
+                                        ->whereHas('voucher', function($query) use($request) {
+                                            $query->where('type_id', $request->type_id);
+                                        })
+                                        ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
+            return view('voucher.report.payment', $data);
+        } elseif($request->start_date != '' && $request->end_date != '' && $request->type_id == '' && $request->sub_type_id == '') {
             $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Payment->toString())
                                         ->whereBetween('date', [$request->start_date, $request->end_date])
                                         ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
             return view('voucher.report.payment', $data);
         } else {
             $data['voucherTransactions'] = VoucherTransaction::where('voucher_type', VoucherType::Payment->toString())
                                         ->paginate(250);
+            $data['types'] = Type::select('id', 'title')->get();
+            $data['subTypes'] = SubType::select('id', 'title')->get();
             return view('voucher.report.payment', $data);
         }
     }
